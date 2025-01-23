@@ -3,14 +3,33 @@ using Random = UnityEngine.Random;
 
 public class FishController : MonoBehaviour
 {
+    public enum FishState
+    {
+        Chillin,
+        Hungry,
+        Sick
+    }
+
+    public enum TargetType
+    {
+        None,
+        Idle,
+        Food
+    }
+
     public Vector4 aquariumRanges;
     public float fadeMultiplier = 0.5f;
     public Vector3 targetPoint;
+    public float starveThreshold = 5;
+    public float hungerThreshold = 10;
     public float speed;
+    public float hungerLevel;
+    public TargetType targetType;
+    public FishState fishState;
     private float _delay;
     private Transform _foodItem;
     private Rigidbody2D _rigidbody;
-    private TargetType _targetType;
+
 
     // Start is called before the first frame update
     private void Start()
@@ -23,11 +42,28 @@ public class FishController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        switch (_targetType)
+        hungerLevel -= Time.deltaTime;
+
+        if (hungerLevel <= 0)
+            KillFish();
+        else if (hungerLevel < starveThreshold)
+            fishState = FishState.Sick;
+        else if (hungerLevel < hungerThreshold)
+            fishState = FishState.Hungry;
+        else
+            fishState = FishState.Chillin;
+
+        switch (targetType)
         {
             case TargetType.Idle:
             {
                 // TODO: Check hunger state here?
+                if ((fishState == FishState.Hungry) | (fishState == FishState.Sick))
+                {
+                    SearchForFoodItem();
+                    break;
+                }
+
                 HandleIdleMotion();
                 break;
             }
@@ -45,9 +81,19 @@ public class FishController : MonoBehaviour
         }
     }
 
+    private void SearchForFoodItem()
+    {
+        // TODO: Add `food` label and make fish select the closest one as _foodItem
+    }
+
+    private void KillFish()
+    {
+        // TODO: :(
+    }
+
     private void ChooseNewIdleTarget()
     {
-        _targetType = TargetType.Idle;
+        targetType = TargetType.Idle;
         targetPoint = new Vector3(Random.Range(aquariumRanges.x, aquariumRanges.y),
             Random.Range(aquariumRanges.z, aquariumRanges.w), 0);
         _delay = 2;
@@ -76,19 +122,5 @@ public class FishController : MonoBehaviour
         {
             _rigidbody.AddForce(speed * (targetPoint - transform.position));
         }
-    }
-
-    private enum TargetType
-    {
-        None,
-        Idle,
-        Food
-    }
-
-    private enum FishState
-    {
-        Chillin,
-        Hungry,
-        Sick
     }
 }
