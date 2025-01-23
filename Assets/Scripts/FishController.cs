@@ -61,6 +61,7 @@ public class FishController : MonoBehaviour
 
     private void HandleIdleMotion()
     {
+        // TODO: Check if fish is facing target(if transform.position.x is pos or neg), and do animation
         var distanceToTarget = Vector3.Distance(transform.position, targetPoint);
         if (distanceToTarget < 0.5f)
         {
