@@ -126,7 +126,8 @@ public class FishController : MonoBehaviour
     {
         // TODO: Check if fish is facing target(if transform.position.x is pos or neg), and do animation
         // Fish moves faster towards food
-        _rigidbody.AddForce(speed * 1.5f * (_foodItem.position - transform.position));
+        _rigidbody.MovePosition(Vector3.MoveTowards(transform.position, _foodItem.position,
+            speed * Time.deltaTime * 15));
     }
 
     private void HandleIdleMotion()
