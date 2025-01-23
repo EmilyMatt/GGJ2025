@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -26,6 +27,7 @@ public class FishController : MonoBehaviour
     public float hungerLevel;
     public TargetType targetType;
     public FishState fishState;
+    private bool _alive = true;
     private float _delay;
     private Transform _foodItem;
     private Rigidbody2D _rigidbody;
@@ -35,18 +37,23 @@ public class FishController : MonoBehaviour
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        // Give a little downward force so its not just static
         _rigidbody.AddForce(Vector2.down, ForceMode2D.Impulse);
-        _delay = 1;
+        _delay = 1; // Give a second before moving away
     }
 
     // Update is called once per frame
     private void Update()
     {
+        if (!_alive) return;
+
+        // use deltaTime so we can measure this in seconds
         hungerLevel -= Time.deltaTime;
 
         if (hungerLevel <= 0)
             KillFish();
         else if (hungerLevel < starveThreshold)
+            // TODO: modify sprite to sick sprite
             fishState = FishState.Sick;
         else if (hungerLevel < hungerThreshold)
             fishState = FishState.Hungry;
@@ -57,11 +64,10 @@ public class FishController : MonoBehaviour
         {
             case TargetType.Idle:
             {
-                // TODO: Check hunger state here?
                 if ((fishState == FishState.Hungry) | (fishState == FishState.Sick))
                 {
                     SearchForFoodItem();
-                    break;
+                    if (_foodItem) break; // If no food was found, continue with Idle motion
                 }
 
                 HandleIdleMotion();
@@ -83,12 +89,21 @@ public class FishController : MonoBehaviour
 
     private void SearchForFoodItem()
     {
-        // TODO: Add `food` label and make fish select the closest one as _foodItem
+        // Yes I know its an expensive method but we need to always choose the closest food
+        // TODO: maybe use a half-second interval between choosing closest food?
+        var foodObject = GameObject.FindGameObjectsWithTag("Food").Select(x => x.transform)
+            .Where(x => x.position.y > -3) // Don't waste time on food that will be gone in a sec
+            .OrderBy(x => Vector3.Distance(transform.position, x.position)).FirstOrDefault();
+        if (!foodObject) return;
+
+        _foodItem = foodObject;
+        targetType = TargetType.Food;
     }
 
     private void KillFish()
     {
-        // TODO: :(
+        // TODO: modify sprite to dead sprite
+        _alive = false;
     }
 
     private void ChooseNewIdleTarget()
