@@ -30,12 +30,15 @@ public class FishController : MonoBehaviour
     public Vector3 targetPoint;
     public float starveThreshold = 5;
     public float hungerThreshold = 10;
+    public float youngThreshold = 5;
+    public float adultThreshold = 10;
     public float speed;
     public float hungerLevel;
     public TargetType targetType;
     public FishState fishState;
     private bool _alive = true;
     private float _delay;
+    private float _fishAge;
     private Transform _foodItem;
     private LifeStage _lifeStage = LifeStage.Beby;
     private Rigidbody2D _rigidbody;
@@ -54,6 +57,11 @@ public class FishController : MonoBehaviour
     private void Update()
     {
         if (!_alive) return;
+        if (_lifeStage != LifeStage.Adult && fishState != FishState.Sick)
+        {
+            _fishAge += Time.deltaTime;
+            CheckUpdateFishSize();
+        }
 
         // use deltaTime so we can measure this in seconds
         hungerLevel -= Time.deltaTime;
@@ -92,6 +100,23 @@ public class FishController : MonoBehaviour
                 if (_delay <= 0) ChooseNewIdleTarget();
                 break;
             }
+        }
+    }
+
+    private void CheckUpdateFishSize()
+    {
+        switch (_lifeStage)
+        {
+            case LifeStage.Beby when _fishAge > youngThreshold:
+                // TODO: Enlarge fish and collision, modify stats
+                _lifeStage = LifeStage.Young;
+                Debug.Log("Fish is young now");
+                break;
+            case LifeStage.Young when _fishAge > adultThreshold:
+                // TODO: Enlarge fish and collision, modify stats
+                _lifeStage = LifeStage.Adult;
+                Debug.Log("Fish is adult now");
+                break;
         }
     }
 
