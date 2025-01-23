@@ -18,9 +18,9 @@ public class DropFood : MonoBehaviour
     }
 
     void OnMouseDown() {
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out Vector2 localMousePosition);
-        Vector3 mousePosition = canvas.transform.TransformPoint(localMousePosition);
-        Debug.Log(string.Format("{0} {1}", localMousePosition, mousePosition));
-        Instantiate(food, mousePosition, Quaternion.identity, canvas.transform);
+        var v3 = Input.mousePosition;
+        v3.z = 10.0F;
+        v3 = Camera.main.ScreenToWorldPoint(v3);
+        GameObject instance = Instantiate(food, v3, Quaternion.identity);
     }
 }
