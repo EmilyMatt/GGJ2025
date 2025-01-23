@@ -212,6 +212,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 800139a64b5904196b7b5df302633892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  food: {fileID: 0}
 --- !u!61 &19867927
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -594,6 +596,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 800139a64b5904196b7b5df302633892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  food: {fileID: 0}
 --- !u!61 &293256382
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -810,6 +814,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 800139a64b5904196b7b5df302633892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 52168353}
+  food: {fileID: 7876799049123129163, guid: 8114206a2bc914afba9a1c3580b28b28, type: 3}
 --- !u!61 &1179109731
 BoxCollider2D:
   m_ObjectHideFlags: 0
