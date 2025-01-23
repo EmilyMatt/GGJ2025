@@ -11,6 +11,13 @@ public class FishController : MonoBehaviour
         Sick
     }
 
+    public enum LifeStage
+    {
+        Beby,
+        Young,
+        Adult
+    }
+
     public enum TargetType
     {
         None,
@@ -30,6 +37,7 @@ public class FishController : MonoBehaviour
     private bool _alive = true;
     private float _delay;
     private Transform _foodItem;
+    private LifeStage _lifeStage = LifeStage.Beby;
     private Rigidbody2D _rigidbody;
 
 
@@ -116,6 +124,7 @@ public class FishController : MonoBehaviour
 
     private void HandleChaseFood()
     {
+        // TODO: Check if fish is facing target(if transform.position.x is pos or neg), and do animation
         // Fish moves faster towards food
         _rigidbody.AddForce(speed * 1.5f * (_foodItem.position - transform.position));
     }
