@@ -62,6 +62,11 @@ sysinfo.txt
 *.unitypackage.meta
 *.app
 
+# IDEs
+.idea/
+.vs/
+.vscode/
+
 # Crashlytics generated file
 crashlytics-build.properties
 
