@@ -79,17 +79,14 @@ public class FishController : MonoBehaviour
         }
         else if (hungerLevel < starveThreshold)
         {
-            _spriteRenderer.color = new Color(0, 0.4f, 0);
+            _spriteRenderer.color = new Color(0.3f, 0.6f, 0.3f);
             fishState = FishState.Sick;
-        }
-        else if (hungerLevel < hungerThreshold)
-        {
-            fishState = FishState.Hungry;
         }
         else
         {
+            // If we are returning from sick state, update color back
             if (fishState == FishState.Sick) _spriteRenderer.color = Color.white;
-            fishState = FishState.Chillin;
+            fishState = hungerLevel < hungerThreshold ? FishState.Hungry : FishState.Chillin;
         }
 
         switch (targetType)
