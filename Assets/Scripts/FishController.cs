@@ -6,6 +6,10 @@ using Random = UnityEngine.Random;
 
 public class FishController : MonoBehaviour
 {
+    private static readonly int IsDead = Animator.StringToHash("IsDead");
+    private static readonly int IsYoung = Animator.StringToHash("IsYoung");
+    private static readonly int IsAdult = Animator.StringToHash("IsAdult");
+
     public float fadeMultiplier = 0.5f;
     public Vector3 targetPoint;
     public float speed;
@@ -135,6 +139,7 @@ public class FishController : MonoBehaviour
                 // _animator.runtimeAnimatorController = youngSprite;
                 _mouthOffset = 0.5f;
                 _lifeStage = LifeStage.Young;
+                _animator.SetBool(IsYoung, true);
                 break;
             case LifeStage.Young when _fishAge > fishStats.adultThreshold:
                 // TODO: Enlarge fish and collision, modify stats
@@ -142,6 +147,7 @@ public class FishController : MonoBehaviour
                 // _animator.runtimeAnimatorController = adultSprite;
                 _mouthOffset = 0.75f;
                 _lifeStage = LifeStage.Adult;
+                _animator.SetBool(IsAdult, true);
                 break;
             default:
                 return;
@@ -168,7 +174,7 @@ public class FishController : MonoBehaviour
         // TODO: modify sprite to dead sprite
         fishState = FishState.Dead;
         _spriteRenderer.flipY = true;
-        _animator.SetBool("isDead", true);
+        _animator.SetBool(IsDead, true);
     }
 
     private void ChooseNewIdleTarget()
@@ -179,7 +185,7 @@ public class FishController : MonoBehaviour
         _delay = 2;
     }
 
-    private void ChangeDirection(Vector3 position)
+    private void MaybeChangeDirection(Vector3 position)
     {
         var directionToFood = (position - transform.position).normalized;
 
@@ -187,9 +193,11 @@ public class FishController : MonoBehaviour
         var shouldChangeDirection = (_direction == FishDirection.Left && directionToFood.x > 0) ||
                                     (_direction == FishDirection.Right && directionToFood.x < 0);
         if (!shouldChangeDirection) return;
+
         _direction = _direction == FishDirection.Left ? FishDirection.Right : FishDirection.Left;
 
         _spriteRenderer.flipX = _direction == FishDirection.Right; // Default sprite is left
+        // Ensure mouth is on the correct side
         _mouthCollider.offset = new Vector2(-_mouthCollider.offset.x, _mouthCollider.offset.y);
     }
 
@@ -203,7 +211,7 @@ public class FishController : MonoBehaviour
             return;
         }
 
-        ChangeDirection(foodPosition);
+        MaybeChangeDirection(foodPosition);
 
         // Add offset so food goes to mouth
         if (_direction == FishDirection.Left)
@@ -211,7 +219,6 @@ public class FishController : MonoBehaviour
         else
             foodPosition.x -= _mouthOffset;
 
-        // TODO: Check if fish is facing target(if transform.position.x is pos or neg), and do animation
         // Fish moves faster towards food
         _rigidbody.MovePosition(Vector3.MoveTowards(transform.position, foodPosition,
             speed * Time.deltaTime * 10));
@@ -219,7 +226,7 @@ public class FishController : MonoBehaviour
 
     private void HandleIdleMotion()
     {
-        ChangeDirection(targetPoint);
+        MaybeChangeDirection(targetPoint);
         var distanceToTarget = Vector3.Distance(transform.position, targetPoint);
         if (distanceToTarget < 0.5f)
         {
