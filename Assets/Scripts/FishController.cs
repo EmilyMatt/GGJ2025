@@ -6,9 +6,10 @@ using Random = UnityEngine.Random;
 
 public class FishController : MonoBehaviour
 {
-    private static readonly int IsDead = Animator.StringToHash("IsDead");
     private static readonly int IsYoung = Animator.StringToHash("IsYoung");
     private static readonly int IsAdult = Animator.StringToHash("IsAdult");
+    private static readonly int IsSick = Animator.StringToHash("IsSick");
+    private static readonly int IsDead = Animator.StringToHash("IsDead");
 
     public float fadeMultiplier = 0.5f;
     public Vector3 targetPoint;
@@ -25,7 +26,7 @@ public class FishController : MonoBehaviour
     private Transform _foodItem;
     private LifeStage _lifeStage;
     private CircleCollider2D _mouthCollider;
-    private float _mouthOffset = 0.25f;
+    private float _mouthOffset = 0.15f;
     private Rigidbody2D _rigidbody;
     private SpriteRenderer _spriteRenderer;
 
@@ -60,11 +61,19 @@ public class FishController : MonoBehaviour
         hungerLevel -= Time.deltaTime;
 
         if (hungerLevel <= 0)
+        {
             KillFish();
+        }
         else if (hungerLevel < fishStats.starveThreshold)
+        {
             fishState = FishState.Sick;
+            _animator.SetBool(IsSick, true);
+        }
         else
+        {
             fishState = hungerLevel < fishStats.hungerThreshold ? FishState.Hungry : FishState.Chillin;
+            _animator.SetBool(IsSick, false);
+        }
 
         switch (targetType)
         {
@@ -125,12 +134,12 @@ public class FishController : MonoBehaviour
         switch (_lifeStage)
         {
             case LifeStage.Beby when _fishAge > fishStats.youngThreshold:
-                _mouthOffset = 0.5f;
+                _mouthOffset = 0.25f;
                 _lifeStage = LifeStage.Young;
                 _animator.SetBool(IsYoung, true);
                 break;
             case LifeStage.Young when _fishAge > fishStats.adultThreshold:
-                _mouthOffset = 0.75f;
+                _mouthOffset = 0.5f;
                 _lifeStage = LifeStage.Adult;
                 _animator.SetBool(IsAdult, true);
                 break;
