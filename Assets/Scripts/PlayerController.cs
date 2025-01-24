@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private static PlayerController _instance;
+    public Vector4 aquariumRanges;
     public Canvas canvas;
     public GameObject food;
     public float feedingDelay;

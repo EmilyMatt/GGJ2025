@@ -1,40 +1,18 @@
 using System.Collections;
 using System.Linq;
-using UnityEditor.Animations;
+using FishSettings;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class FishController : MonoBehaviour
 {
-    public enum FishState
-    {
-        Chillin,
-        Hungry,
-        Sick,
-        Dead
-    }
-
-    public enum TargetType
-    {
-        None,
-        Idle,
-        Food
-    }
-
-    public Vector4 aquariumRanges;
     public float fadeMultiplier = 0.5f;
     public Vector3 targetPoint;
-    public float starveThreshold = 5;
-    public float hungerThreshold = 10;
-    public float youngThreshold = 5;
-    public float adultThreshold = 10;
     public float speed;
-    public float maxHungerLevel;
     public float hungerLevel;
-    public TargetType targetType;
     public FishState fishState;
-    public AnimatorController youngSprite;
-    public AnimatorController adultSprite;
+    public TargetType targetType;
+    public FishStats fishStats;
     private Animator _animator;
     private float _delay;
     private FishDirection _direction;
@@ -59,6 +37,8 @@ public class FishController : MonoBehaviour
         // Give a little downward force so its not just static
         _rigidbody.AddForce(Vector2.down, ForceMode2D.Impulse);
         _delay = 1; // Give a second before moving away
+
+        fishStats.aquariumRanges = PlayerController.GetInstance().aquariumRanges;
     }
 
     // Update is called once per frame
@@ -78,7 +58,7 @@ public class FishController : MonoBehaviour
         {
             KillFish();
         }
-        else if (hungerLevel < starveThreshold)
+        else if (hungerLevel < fishStats.starveThreshold)
         {
             _spriteRenderer.color = new Color(0.3f, 0.6f, 0.3f);
             fishState = FishState.Sick;
@@ -87,7 +67,7 @@ public class FishController : MonoBehaviour
         {
             // If we are returning from sick state, update color back
             if (fishState == FishState.Sick) _spriteRenderer.color = Color.white;
-            fishState = hungerLevel < hungerThreshold ? FishState.Hungry : FishState.Chillin;
+            fishState = hungerLevel < fishStats.hungerThreshold ? FishState.Hungry : FishState.Chillin;
         }
 
         switch (targetType)
@@ -134,7 +114,7 @@ public class FishController : MonoBehaviour
     private void EatFood(GameObject foodGameObject)
     {
         var foodStats = foodGameObject.GetComponent<DroppedFoodController>();
-        hungerLevel = Mathf.Min(maxHungerLevel, hungerLevel + foodStats.foodAmount);
+        hungerLevel = Mathf.Min(fishStats.maxHungerLevel, hungerLevel + foodStats.foodAmount);
         StartCoroutine(PolluteAquarium(foodStats.foodAmount, 2f));
         targetType = TargetType.None;
         _delay = 2;
@@ -148,19 +128,23 @@ public class FishController : MonoBehaviour
     {
         switch (_lifeStage)
         {
-            case LifeStage.Beby when _fishAge > youngThreshold:
+            case LifeStage.Beby when _fishAge > fishStats.youngThreshold:
                 // TODO: Enlarge fish and collision, modify stats
                 // _animator.runtimeAnimatorController = youngSprite;
                 _mouthOffset = 0.5f;
                 _lifeStage = LifeStage.Young;
                 break;
-            case LifeStage.Young when _fishAge > adultThreshold:
+            case LifeStage.Young when _fishAge > fishStats.adultThreshold:
                 // TODO: Enlarge fish and collision, modify stats
                 // _animator.runtimeAnimatorController = adultSprite;
                 _mouthOffset = 0.75f;
                 _lifeStage = LifeStage.Adult;
                 break;
+            default:
+                return;
         }
+
+        _mouthCollider.offset = new Vector2(_direction == FishDirection.Left ? -_mouthOffset : _mouthOffset, 0);
     }
 
     private void SearchForFoodItem()
@@ -187,8 +171,8 @@ public class FishController : MonoBehaviour
     private void ChooseNewIdleTarget()
     {
         targetType = TargetType.Idle;
-        targetPoint = new Vector3(Random.Range(aquariumRanges.x, aquariumRanges.y),
-            Random.Range(aquariumRanges.z, aquariumRanges.w), 0);
+        targetPoint = new Vector3(Random.Range(fishStats.aquariumRanges.x, fishStats.aquariumRanges.y),
+            Random.Range(fishStats.aquariumRanges.z, fishStats.aquariumRanges.w), 0);
         _delay = 2;
     }
 
@@ -253,18 +237,5 @@ public class FishController : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         PlayerController.GetInstance().Pollute(level);
-    }
-
-    private enum FishDirection
-    {
-        Left,
-        Right
-    }
-
-    private enum LifeStage
-    {
-        Beby,
-        Young,
-        Adult
     }
 }
