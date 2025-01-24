@@ -82,14 +82,12 @@ MonoBehaviour:
   fishState: 0
   targetType: 0
   fishStats:
-    adultSprite: {fileID: 0}
+    youngThreshold: 35
     adultThreshold: 60
-    aquariumRanges: {x: -6, y: 6, z: -4, w: 4}
     hungerThreshold: 40
-    maxHungerLevel: 60
     starveThreshold: 20
-    youngSprite: {fileID: 0}
-    youngThreshold: 25
+    maxHungerLevel: 60
+    aquariumRanges: {x: -6, y: 6, z: -4, w: 4}
 --- !u!61 &1131522922866480014
 BoxCollider2D:
   m_ObjectHideFlags: 0

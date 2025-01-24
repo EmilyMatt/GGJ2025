@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace FishSettings
@@ -7,14 +6,12 @@ namespace FishSettings
     [Serializable]
     public class FishStats
     {
-        public AnimatorController adultSprite;
-        public float adultThreshold = 10;
-        public Vector4 aquariumRanges;
-        public float hungerThreshold = 10;
-        public float maxHungerLevel;
-        public float starveThreshold = 5;
-        public AnimatorController youngSprite;
-        public float youngThreshold = 5;
+        public float youngThreshold = 35;
+        public float adultThreshold = 60;
+        public float hungerThreshold = 40;
+        public float starveThreshold = 20;
+        public float maxHungerLevel = 60;
+        public Vector4 aquariumRanges = new(-6, 6, -4, 4);
     }
 
     public enum FishDirection
