@@ -173,6 +173,14 @@ public class FishController : MonoBehaviour
 
     private void HandleChaseFood()
     {
+        if (_foodItem.position.y < -3.0)
+        {
+            Destroy(_foodItem.gameObject, 2f);
+            _foodItem = null;
+            targetType = TargetType.None;
+            return;
+        }
+
         // TODO: Check if fish is facing target(if transform.position.x is pos or neg), and do animation
         // Fish moves faster towards food
         _rigidbody.MovePosition(Vector3.MoveTowards(transform.position, _foodItem.position,
