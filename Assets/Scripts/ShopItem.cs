@@ -37,7 +37,7 @@ public class ShopItem : MonoBehaviour
     {
         _rigidbody.AddForce(new Vector2(Random.Range(-wobbliness, wobbliness), 0.0f), ForceMode2D.Impulse);
 
-        if (transform.position.y > 2 * Screen.height) Destroy(gameObject);
+        if (transform.position.y > Screen.height * 1.1f) Destroy(gameObject);
     }
 
     private void OnMouseDown()

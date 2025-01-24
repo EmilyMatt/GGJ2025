@@ -5513,6 +5513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 800139a64b5904196b7b5df302633892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aquariumRanges: {x: -6, y: 6, z: -4, w: 4}
   canvas: {fileID: 52168353}
   food: {fileID: 7876799049123129163, guid: 8114206a2bc914afba9a1c3580b28b28, type: 3}
   feedingDelay: 1.5
@@ -5902,33 +5903,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5894413249036556690, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5894413249036556690, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5894413249036556690, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
-      propertyPath: youngSprite
-      value: 
-      objectReference: {fileID: -1807940549, guid: b7833ee946a8f984b9ae859cd8783db9, type: 3}
-    - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
-      propertyPath: adultThreshold
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
-      propertyPath: maxHungerLevel
+      propertyPath: fishStats.adultThreshold
       value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
-      propertyPath: youngThreshold
+      propertyPath: fishStats.maxHungerLevel
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
+      propertyPath: fishStats.youngThreshold
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
+      propertyPath: fishStats.hungerThreshold
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
+      propertyPath: fishStats.starveThreshold
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
+      propertyPath: fishStats.aquariumRanges.w
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
+      propertyPath: fishStats.aquariumRanges.x
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
+      propertyPath: fishStats.aquariumRanges.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
+      propertyPath: fishStats.aquariumRanges.z
+      value: -4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
