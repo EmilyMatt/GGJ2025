@@ -3,11 +3,18 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private static PlayerController _instance;
     public Canvas canvas;
     public GameObject food;
     public float feedingDelay;
+    public float pollutionLevel;
     private Coroutine _feedTimer;
     private bool _readyToFeed = true;
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     private void Start()
     {
@@ -28,6 +35,16 @@ public class PlayerController : MonoBehaviour
         {
             FishScareBubble();
         }
+    }
+
+    public void Pollute(float amount)
+    {
+        pollutionLevel += amount;
+    }
+
+    public static PlayerController GetInstance()
+    {
+        return _instance;
     }
 
     private void DropFood()

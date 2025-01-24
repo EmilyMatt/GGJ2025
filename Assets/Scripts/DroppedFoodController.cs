@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FoodStats : MonoBehaviour
+public class DroppedFoodController : MonoBehaviour
 {
     public float foodAmount;
     private SpriteRenderer _renderer;

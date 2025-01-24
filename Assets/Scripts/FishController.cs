@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -8,14 +9,8 @@ public class FishController : MonoBehaviour
     {
         Chillin,
         Hungry,
-        Sick
-    }
-
-    public enum LifeStage
-    {
-        Beby,
-        Young,
-        Adult
+        Sick,
+        Dead
     }
 
     public enum TargetType
@@ -37,8 +32,8 @@ public class FishController : MonoBehaviour
     public float hungerLevel;
     public TargetType targetType;
     public FishState fishState;
-    private bool _alive = true;
     private float _delay;
+    private FishDirection _direction;
     private float _fishAge;
     private Transform _foodItem;
     private LifeStage _lifeStage = LifeStage.Beby;
@@ -57,7 +52,7 @@ public class FishController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (!_alive) return;
+        if (fishState == FishState.Dead) return;
         if (_lifeStage != LifeStage.Adult && fishState != FishState.Sick)
         {
             _fishAge += Time.deltaTime;
@@ -120,9 +115,12 @@ public class FishController : MonoBehaviour
 
     private void EatFood(GameObject foodGameObject)
     {
-        var foodStats = foodGameObject.GetComponent<FoodStats>();
+        var foodStats = foodGameObject.GetComponent<DroppedFoodController>();
         hungerLevel = Mathf.Min(maxHungerLevel, hungerLevel + foodStats.foodAmount);
-        ChooseNewIdleTarget();
+        StartCoroutine(PolluteAquarium(foodStats.foodAmount, 2f));
+        targetType = TargetType.None;
+        _delay = 2;
+        _rigidbody.AddForce(Vector2.down);
 
         Destroy(foodGameObject);
     }
@@ -161,7 +159,7 @@ public class FishController : MonoBehaviour
     private void KillFish()
     {
         // TODO: modify sprite to dead sprite
-        _alive = false;
+        fishState = FishState.Dead;
     }
 
     private void ChooseNewIdleTarget()
@@ -172,19 +170,49 @@ public class FishController : MonoBehaviour
         _delay = 2;
     }
 
+    private void ChangeDirection()
+    {
+        // TODO: Change sprite here, Change position of mouth collider
+    }
+
     private void HandleChaseFood()
     {
-        if (_foodItem.position.y < -3.0)
+        var foodPosition = _foodItem.position;
+        if (foodPosition.y < -3.0)
         {
-            Destroy(_foodItem.gameObject, 2f);
             _foodItem = null;
             targetType = TargetType.None;
             return;
         }
 
+        var directionToFood = foodPosition - transform.position;
+        switch (directionToFood.x, _direction)
+        {
+            case (> 0, FishDirection.Left):
+                ChangeDirection();
+                break;
+            case (> 0, FishDirection.Right):
+                // Real simple, just continue moving that way
+                foodPosition.x -= 0.75f;
+                break;
+            case (< 0, FishDirection.Left):
+                // Real simple, just continue moving that way
+                foodPosition.x += 0.75f;
+                break;
+            case (< 0, FishDirection.Right):
+                ChangeDirection();
+                break;
+            case (0, FishDirection.Left):
+                foodPosition.x += 0.75f;
+                break;
+            case (0, FishDirection.Right):
+                foodPosition.x -= 0.75f;
+                break;
+        }
+
         // TODO: Check if fish is facing target(if transform.position.x is pos or neg), and do animation
         // Fish moves faster towards food
-        _rigidbody.MovePosition(Vector3.MoveTowards(transform.position, _foodItem.position,
+        _rigidbody.MovePosition(Vector3.MoveTowards(transform.position, foodPosition,
             speed * Time.deltaTime * 15));
     }
 
@@ -205,5 +233,24 @@ public class FishController : MonoBehaviour
         {
             _rigidbody.AddForce(speed * (targetPoint - transform.position));
         }
+    }
+
+    private IEnumerator PolluteAquarium(float level, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        PlayerController.GetInstance().Pollute(level);
+    }
+
+    private enum FishDirection
+    {
+        Right,
+        Left
+    }
+
+    private enum LifeStage
+    {
+        Beby,
+        Young,
+        Adult
     }
 }
