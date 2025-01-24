@@ -14,6 +14,7 @@ public class FishController : MonoBehaviour
     public TargetType targetType;
     public FishStats fishStats;
     private Animator _animator;
+    
     private float _delay;
     private FishDirection _direction;
     private float _fishAge;
@@ -130,12 +131,14 @@ public class FishController : MonoBehaviour
         {
             case LifeStage.Beby when _fishAge > fishStats.youngThreshold:
                 // TODO: Enlarge fish and collision, modify stats
+                _animator.SetBool("isYoung",true);
                 // _animator.runtimeAnimatorController = youngSprite;
                 _mouthOffset = 0.5f;
                 _lifeStage = LifeStage.Young;
                 break;
             case LifeStage.Young when _fishAge > fishStats.adultThreshold:
                 // TODO: Enlarge fish and collision, modify stats
+                _animator.SetBool("isAdult",true);
                 // _animator.runtimeAnimatorController = adultSprite;
                 _mouthOffset = 0.75f;
                 _lifeStage = LifeStage.Adult;
@@ -165,7 +168,7 @@ public class FishController : MonoBehaviour
         // TODO: modify sprite to dead sprite
         fishState = FishState.Dead;
         _spriteRenderer.flipY = true;
-        _animator.enabled = false;
+        _animator.SetBool("isDead", true);
     }
 
     private void ChooseNewIdleTarget()
