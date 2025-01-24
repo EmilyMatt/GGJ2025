@@ -33,6 +33,7 @@ public class FishController : MonoBehaviour
     public float youngThreshold = 5;
     public float adultThreshold = 10;
     public float speed;
+    public float maxHungerLevel;
     public float hungerLevel;
     public TargetType targetType;
     public FishState fishState;
@@ -91,7 +92,13 @@ public class FishController : MonoBehaviour
             }
             case TargetType.Food:
             {
-                HandleChaseFood();
+                if (_foodItem)
+                {
+                    HandleChaseFood();
+                    break;
+                }
+
+                ChooseNewIdleTarget();
                 break;
             }
             case TargetType.None:
@@ -102,6 +109,23 @@ public class FishController : MonoBehaviour
             }
         }
     }
+
+
+    // Currently the only trigger we have is the mouth collision
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (fishState is FishState.Hungry or FishState.Sick && other.CompareTag("Food")) EatFood(other.gameObject);
+    }
+
+    private void EatFood(GameObject foodGameObject)
+    {
+        var foodStats = foodGameObject.GetComponent<FoodStats>();
+        hungerLevel = Mathf.Min(maxHungerLevel, hungerLevel + foodStats.foodAmount);
+        ChooseNewIdleTarget();
+
+        Destroy(foodGameObject);
+    }
+
 
     private void CheckUpdateFishSize()
     {

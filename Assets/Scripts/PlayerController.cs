@@ -1,10 +1,13 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     public Canvas canvas;
     public GameObject food;
-    private readonly bool _readyToFeed = true;
+    public float feedingDelay;
+    private Coroutine _feedTimer;
+    private bool _readyToFeed = true;
 
     private void Start()
     {
@@ -13,19 +16,24 @@ public class PlayerController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (_readyToFeed)
+        var mousePressed = Input.GetMouseButtonDown(0);
+        if (_readyToFeed && mousePressed)
         {
             DropFood();
+            if (_feedTimer != null) StopCoroutine(_feedTimer);
+            // Store it so it can be cancelled if needed
+            _feedTimer = StartCoroutine(StartFeedTimer());
         }
-        else
+        else if (mousePressed)
         {
             FishScareBubble();
         }
     }
 
-
     private void DropFood()
     {
+        _readyToFeed = false;
+
         var mousePos = Input.mousePosition;
         mousePos.z = 10.0F;
         if (Camera.main) mousePos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -34,6 +42,12 @@ public class PlayerController : MonoBehaviour
 
     private void FishScareBubble()
     {
-        
+    }
+
+    private IEnumerator StartFeedTimer()
+    {
+        yield return new WaitForSeconds(feedingDelay);
+        _readyToFeed = true;
+        _feedTimer = null;
     }
 }
