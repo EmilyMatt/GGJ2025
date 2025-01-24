@@ -60,20 +60,11 @@ public class FishController : MonoBehaviour
         hungerLevel -= Time.deltaTime;
 
         if (hungerLevel <= 0)
-        {
             KillFish();
-        }
         else if (hungerLevel < fishStats.starveThreshold)
-        {
-            _spriteRenderer.color = new Color(0.3f, 0.6f, 0.3f);
             fishState = FishState.Sick;
-        }
         else
-        {
-            // If we are returning from sick state, update color back
-            if (fishState == FishState.Sick) _spriteRenderer.color = Color.white;
             fishState = hungerLevel < fishStats.hungerThreshold ? FishState.Hungry : FishState.Chillin;
-        }
 
         switch (targetType)
         {
