@@ -128,7 +128,7 @@ public class FishController : MonoBehaviour
         StartCoroutine(PolluteAquarium(foodStats.foodAmount, 2f));
         targetType = TargetType.None;
         _delay = 2;
-        _rigidbody.AddForce(Vector2.down);
+        _rigidbody.AddForce(Vector2.down * 3);
 
         Destroy(foodGameObject);
     }
@@ -215,7 +215,7 @@ public class FishController : MonoBehaviour
         // TODO: Check if fish is facing target(if transform.position.x is pos or neg), and do animation
         // Fish moves faster towards food
         _rigidbody.MovePosition(Vector3.MoveTowards(transform.position, foodPosition,
-            speed * Time.deltaTime * 15));
+            speed * Time.deltaTime * 10));
     }
 
     private void HandleIdleMotion()
