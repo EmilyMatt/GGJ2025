@@ -591,46 +591,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 1
---- !u!1 &983827618 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2169064345183891595, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
-  m_PrefabInstance: {fileID: 1649460226943669848}
-  m_PrefabAsset: {fileID: 0}
---- !u!58 &983827623
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 983827618}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 8
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.25, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.25
 --- !u!1 &1179109729
 GameObject:
   m_ObjectHideFlags: 0
@@ -946,14 +906,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fish
       objectReference: {fileID: 0}
-    - target: {fileID: 2740984777948329853, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2740984777948329853, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
-      propertyPath: m_UsedByEffector
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3138589848635719657, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1001,10 +953,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2169064345183891595, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 983827623}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
