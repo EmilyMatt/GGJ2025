@@ -32,18 +32,26 @@ public class FishController : MonoBehaviour
     public float hungerLevel;
     public TargetType targetType;
     public FishState fishState;
+    private Animator _animator;
     private float _delay;
     private FishDirection _direction;
     private float _fishAge;
     private Transform _foodItem;
     private LifeStage _lifeStage = LifeStage.Beby;
+    private CircleCollider2D _mouthCollider;
     private Rigidbody2D _rigidbody;
+    private SpriteRenderer _spriteRenderer;
 
 
     // Start is called before the first frame update
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _mouthCollider = GetComponent<CircleCollider2D>();
+        var spriteTransform = transform.Find("Sprite");
+        _spriteRenderer = spriteTransform.GetComponent<SpriteRenderer>();
+        _animator = spriteTransform.GetComponent<Animator>();
+
         // Give a little downward force so its not just static
         _rigidbody.AddForce(Vector2.down, ForceMode2D.Impulse);
         _delay = 1; // Give a second before moving away
@@ -160,6 +168,8 @@ public class FishController : MonoBehaviour
     {
         // TODO: modify sprite to dead sprite
         fishState = FishState.Dead;
+        _spriteRenderer.flipY = true;
+        _animator.enabled = false;
     }
 
     private void ChooseNewIdleTarget()
@@ -170,9 +180,18 @@ public class FishController : MonoBehaviour
         _delay = 2;
     }
 
-    private void ChangeDirection()
+    private void ChangeDirection(Vector3 position)
     {
-        // TODO: Change sprite here, Change position of mouth collider
+        var directionToFood = (position - transform.position).normalized;
+
+        // Change direction if needed
+        var shouldChangeDirection = (_direction == FishDirection.Left && directionToFood.x > 0) ||
+                                    (_direction == FishDirection.Right && directionToFood.x < 0);
+        if (!shouldChangeDirection) return;
+        _direction = _direction == FishDirection.Left ? FishDirection.Right : FishDirection.Left;
+
+        _spriteRenderer.flipX = _direction == FishDirection.Right; // Default sprite is left
+        _mouthCollider.offset = new Vector2(-_mouthCollider.offset.x, _mouthCollider.offset.y);
     }
 
     private void HandleChaseFood()
@@ -185,30 +204,13 @@ public class FishController : MonoBehaviour
             return;
         }
 
-        var directionToFood = foodPosition - transform.position;
-        switch (directionToFood.x, _direction)
-        {
-            case (> 0, FishDirection.Left):
-                ChangeDirection();
-                break;
-            case (> 0, FishDirection.Right):
-                // Real simple, just continue moving that way
-                foodPosition.x -= 0.75f;
-                break;
-            case (< 0, FishDirection.Left):
-                // Real simple, just continue moving that way
-                foodPosition.x += 0.75f;
-                break;
-            case (< 0, FishDirection.Right):
-                ChangeDirection();
-                break;
-            case (0, FishDirection.Left):
-                foodPosition.x += 0.75f;
-                break;
-            case (0, FishDirection.Right):
-                foodPosition.x -= 0.75f;
-                break;
-        }
+        ChangeDirection(foodPosition);
+
+        // Add offset so food goes to mouth
+        if (_direction == FishDirection.Left)
+            foodPosition.x += 0.25f;
+        else
+            foodPosition.x -= 0.25f;
 
         // TODO: Check if fish is facing target(if transform.position.x is pos or neg), and do animation
         // Fish moves faster towards food
@@ -218,7 +220,7 @@ public class FishController : MonoBehaviour
 
     private void HandleIdleMotion()
     {
-        // TODO: Check if fish is facing target(if transform.position.x is pos or neg), and do animation
+        ChangeDirection(targetPoint);
         var distanceToTarget = Vector3.Distance(transform.position, targetPoint);
         if (distanceToTarget < 0.5f)
         {
@@ -243,8 +245,8 @@ public class FishController : MonoBehaviour
 
     private enum FishDirection
     {
-        Right,
-        Left
+        Left,
+        Right
     }
 
     private enum LifeStage
