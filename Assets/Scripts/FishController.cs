@@ -42,6 +42,7 @@ public class FishController : MonoBehaviour
     private Transform _foodItem;
     private LifeStage _lifeStage;
     private CircleCollider2D _mouthCollider;
+    private float _mouthOffset = 0.25f;
     private Rigidbody2D _rigidbody;
     private SpriteRenderer _spriteRenderer;
 
@@ -150,11 +151,13 @@ public class FishController : MonoBehaviour
             case LifeStage.Beby when _fishAge > youngThreshold:
                 // TODO: Enlarge fish and collision, modify stats
                 // _animator.runtimeAnimatorController = youngSprite;
+                _mouthOffset = 0.5f;
                 _lifeStage = LifeStage.Young;
                 break;
             case LifeStage.Young when _fishAge > adultThreshold:
                 // TODO: Enlarge fish and collision, modify stats
                 // _animator.runtimeAnimatorController = adultSprite;
+                _mouthOffset = 0.75f;
                 _lifeStage = LifeStage.Adult;
                 break;
         }
@@ -217,9 +220,9 @@ public class FishController : MonoBehaviour
 
         // Add offset so food goes to mouth
         if (_direction == FishDirection.Left)
-            foodPosition.x += 0.25f;
+            foodPosition.x += _mouthOffset;
         else
-            foodPosition.x -= 0.25f;
+            foodPosition.x -= _mouthOffset;
 
         // TODO: Check if fish is facing target(if transform.position.x is pos or neg), and do animation
         // Fish moves faster towards food

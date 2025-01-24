@@ -5904,19 +5904,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5894413249036556690, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5894413249036556690, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5894413249036556690, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: m_LocalScale.z
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
-      propertyPath: hungerLevel
-      value: 45
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: youngSprite
@@ -5933,18 +5929,6 @@ PrefabInstance:
     - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: youngThreshold
       value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
-      propertyPath: hungerThreshold
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
-      propertyPath: starveThreshold
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 8104712805505150532, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
-      propertyPath: m_Name
-      value: Sprite
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
