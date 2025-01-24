@@ -375,7 +375,7 @@ AnimatorStateMachine:
     m_Position: {x: 100, y: 390, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6563576527237877671}
-    m_Position: {x: 460, y: 210, z: 0}
+    m_Position: {x: 390, y: 200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 7320741927183631362}
     m_Position: {x: 380, y: 290, z: 0}
@@ -402,7 +402,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: sickbaby
+  m_Name: SickBabyFish
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
