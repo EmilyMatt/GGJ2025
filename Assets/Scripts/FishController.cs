@@ -32,6 +32,7 @@ public class FishController : MonoBehaviour
     public float hungerLevel;
     public TargetType targetType;
     public FishState fishState;
+    private Animator _animator;
     private float _delay;
     private FishDirection _direction;
     private float _fishAge;
@@ -39,7 +40,6 @@ public class FishController : MonoBehaviour
     private LifeStage _lifeStage = LifeStage.Beby;
     private CircleCollider2D _mouthCollider;
     private Rigidbody2D _rigidbody;
-
     private SpriteRenderer _spriteRenderer;
 
 
@@ -48,7 +48,9 @@ public class FishController : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _mouthCollider = GetComponent<CircleCollider2D>();
-        _spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
+        var spriteTransform = transform.Find("Sprite");
+        _spriteRenderer = spriteTransform.GetComponent<SpriteRenderer>();
+        _animator = spriteTransform.GetComponent<Animator>();
 
         // Give a little downward force so its not just static
         _rigidbody.AddForce(Vector2.down, ForceMode2D.Impulse);
@@ -166,6 +168,8 @@ public class FishController : MonoBehaviour
     {
         // TODO: modify sprite to dead sprite
         fishState = FishState.Dead;
+        _spriteRenderer.flipY = true;
+        _animator.enabled = false;
     }
 
     private void ChooseNewIdleTarget()
