@@ -18,7 +18,7 @@ public class FishController : MonoBehaviour
     public TargetType targetType;
     public FishStats fishStats;
     private Animator _animator;
-    
+
     private float _delay;
     private FishDirection _direction;
     private float _fishAge;
@@ -134,16 +134,14 @@ public class FishController : MonoBehaviour
         switch (_lifeStage)
         {
             case LifeStage.Beby when _fishAge > fishStats.youngThreshold:
-                // TODO: Enlarge fish and collision, modify stats
-                _animator.SetBool("isYoung",true);
                 _mouthOffset = 0.5f;
                 _lifeStage = LifeStage.Young;
+                _animator.SetBool(IsYoung, true);
                 break;
             case LifeStage.Young when _fishAge > fishStats.adultThreshold:
-                // TODO: Enlarge fish and collision, modify stats
-                _animator.SetBool("isAdult",true);
                 _mouthOffset = 0.75f;
                 _lifeStage = LifeStage.Adult;
+                _animator.SetBool(IsAdult, true);
                 break;
             default:
                 return;
