@@ -33,6 +33,7 @@ public class FishController : MonoBehaviour
     public float youngThreshold = 5;
     public float adultThreshold = 10;
     public float speed;
+    public float maxHungerLevel;
     public float hungerLevel;
     public TargetType targetType;
     public FishState fishState;
@@ -91,7 +92,13 @@ public class FishController : MonoBehaviour
             }
             case TargetType.Food:
             {
-                HandleChaseFood();
+                if (_foodItem)
+                {
+                    HandleChaseFood();
+                    break;
+                }
+
+                ChooseNewIdleTarget();
                 break;
             }
             case TargetType.None:
@@ -102,6 +109,24 @@ public class FishController : MonoBehaviour
             }
         }
     }
+
+
+    // Currently the only trigger we have is the mouth collision
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (fishState is FishState.Hungry or FishState.Sick && other.CompareTag("Food") &&
+            other.transform.position.y > -3) EatFood(other.gameObject);
+    }
+
+    private void EatFood(GameObject foodGameObject)
+    {
+        var foodStats = foodGameObject.GetComponent<FoodStats>();
+        hungerLevel = Mathf.Min(maxHungerLevel, hungerLevel + foodStats.foodAmount);
+        ChooseNewIdleTarget();
+
+        Destroy(foodGameObject);
+    }
+
 
     private void CheckUpdateFishSize()
     {
@@ -149,6 +174,14 @@ public class FishController : MonoBehaviour
 
     private void HandleChaseFood()
     {
+        if (_foodItem.position.y < -3.0)
+        {
+            Destroy(_foodItem.gameObject, 2f);
+            _foodItem = null;
+            targetType = TargetType.None;
+            return;
+        }
+
         // TODO: Check if fish is facing target(if transform.position.x is pos or neg), and do animation
         // Fish moves faster towards food
         _rigidbody.MovePosition(Vector3.MoveTowards(transform.position, _foodItem.position,

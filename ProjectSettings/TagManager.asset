@@ -5,11 +5,13 @@ TagManager:
   serializedVersion: 2
   tags:
   - Food
+  - Fish
+  - Floor
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Food
   - Water
   - UI
   - 
