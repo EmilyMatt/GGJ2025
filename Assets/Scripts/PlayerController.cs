@@ -13,7 +13,14 @@ public class PlayerController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (_readyToFeed) DropFood();
+        if (_readyToFeed)
+        {
+            DropFood();
+        }
+        else
+        {
+            FishScareBubble();
+        }
     }
 
 
@@ -23,5 +30,10 @@ public class PlayerController : MonoBehaviour
         mousePos.z = 10.0F;
         if (Camera.main) mousePos = Camera.main.ScreenToWorldPoint(mousePos);
         Instantiate(food, mousePos, Quaternion.identity);
+    }
+
+    private void FishScareBubble()
+    {
+        
     }
 }
