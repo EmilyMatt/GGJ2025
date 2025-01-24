@@ -13,20 +13,20 @@ public class FoodStats : MonoBehaviour
 
     private void Update()
     {
-        if (!(transform.position.y < -3))
-        {
-            Debug.Log($"Food Height: {transform.position.y}");
-            return;
-        }
+        if (!(transform.position.y < -3)) return;
 
 
         _timeOnGround += Time.deltaTime;
         // Slowly reduce opacity
-        if (_timeOnGround > 4)
-            _renderer.color = new Color(_renderer.color.r, _renderer.color.g, _renderer.color.b,
-                Mathf.Max(0, _renderer.color.a - 10));
+        if (_timeOnGround > 2)
+        {
+            var currentColor = _renderer.color;
+            var newAlpha = GGJMathUtils.ConvertInRange(_timeOnGround, 2, 5, 1, 0.1f);
+            _renderer.color = new Color(currentColor.r, currentColor.g, currentColor.b,
+                Mathf.Max(0, newAlpha));
+        }
 
-        if (_timeOnGround > 7) Destroy(gameObject);
+        if (_timeOnGround > 5) Destroy(gameObject);
     }
 
     private void OnCollisionEnter(Collision other)
