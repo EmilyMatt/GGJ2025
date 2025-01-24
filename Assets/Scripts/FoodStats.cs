@@ -28,11 +28,4 @@ public class FoodStats : MonoBehaviour
 
         if (_timeOnGround > 5) Destroy(gameObject);
     }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.CompareTag("Floor"))
-        {
-        }
-    }
 }

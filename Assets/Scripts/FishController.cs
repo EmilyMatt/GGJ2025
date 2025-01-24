@@ -114,7 +114,8 @@ public class FishController : MonoBehaviour
     // Currently the only trigger we have is the mouth collision
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (fishState is FishState.Hungry or FishState.Sick && other.CompareTag("Food")) EatFood(other.gameObject);
+        if (fishState is FishState.Hungry or FishState.Sick && other.CompareTag("Food") &&
+            other.transform.position.y > -3) EatFood(other.gameObject);
     }
 
     private void EatFood(GameObject foodGameObject)
