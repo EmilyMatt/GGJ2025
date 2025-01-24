@@ -5907,6 +5907,10 @@ PrefabInstance:
       value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
+      propertyPath: youngSprite
+      value: 
+      objectReference: {fileID: -1807940549, guid: b7833ee946a8f984b9ae859cd8783db9, type: 3}
+    - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: adultThreshold
       value: 40
       objectReference: {fileID: 0}
@@ -5953,7 +5957,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8662140336631243803, guid: 916223ebbe4fb4d6783f0be3925e594c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2
+      value: -3.48
       objectReference: {fileID: 0}
     - target: {fileID: 8662140336631243803, guid: 916223ebbe4fb4d6783f0be3925e594c, type: 3}
       propertyPath: m_LocalPosition.z

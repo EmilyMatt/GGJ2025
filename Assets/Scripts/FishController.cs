@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+using UnityEditor.Animations;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -32,12 +33,14 @@ public class FishController : MonoBehaviour
     public float hungerLevel;
     public TargetType targetType;
     public FishState fishState;
+    public AnimatorController youngSprite;
+    public AnimatorController adultSprite;
     private Animator _animator;
     private float _delay;
     private FishDirection _direction;
     private float _fishAge;
     private Transform _foodItem;
-    private LifeStage _lifeStage = LifeStage.Beby;
+    private LifeStage _lifeStage;
     private CircleCollider2D _mouthCollider;
     private Rigidbody2D _rigidbody;
     private SpriteRenderer _spriteRenderer;
@@ -71,14 +74,23 @@ public class FishController : MonoBehaviour
         hungerLevel -= Time.deltaTime;
 
         if (hungerLevel <= 0)
+        {
             KillFish();
+        }
         else if (hungerLevel < starveThreshold)
-            // TODO: modify sprite to sick sprite
+        {
+            _spriteRenderer.color = new Color(0, 0.4f, 0);
             fishState = FishState.Sick;
+        }
         else if (hungerLevel < hungerThreshold)
+        {
             fishState = FishState.Hungry;
+        }
         else
+        {
+            if (fishState == FishState.Sick) _spriteRenderer.color = Color.white;
             fishState = FishState.Chillin;
+        }
 
         switch (targetType)
         {
@@ -140,13 +152,13 @@ public class FishController : MonoBehaviour
         {
             case LifeStage.Beby when _fishAge > youngThreshold:
                 // TODO: Enlarge fish and collision, modify stats
+                // _animator.runtimeAnimatorController = youngSprite;
                 _lifeStage = LifeStage.Young;
-                Debug.Log("Fish is young now");
                 break;
             case LifeStage.Young when _fishAge > adultThreshold:
                 // TODO: Enlarge fish and collision, modify stats
+                // _animator.runtimeAnimatorController = adultSprite;
                 _lifeStage = LifeStage.Adult;
-                Debug.Log("Fish is adult now");
                 break;
         }
     }

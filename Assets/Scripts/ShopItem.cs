@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShopItem : MonoBehaviour
@@ -17,10 +15,11 @@ public class ShopItem : MonoBehaviour
     private Rigidbody2D _rigidbody;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        switch (itemType) {
+        switch (itemType)
+        {
             case ItemType.Goldfish:
                 GetComponentInChildren<SpriteRenderer>().color = new Color(1.0f, 1.0f, 0.0f, 0.1f);
                 break;
@@ -30,22 +29,18 @@ public class ShopItem : MonoBehaviour
             default:
                 Debug.LogError("no such item");
                 return;
-
         }
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         _rigidbody.AddForce(new Vector2(Random.Range(-wobbliness, wobbliness), 0.0f), ForceMode2D.Impulse);
 
-        if (_rigidbody.position.y > 2 * Screen.height)
-        {
-            Destroy(gameObject);
-        }
+        if (transform.position.y > 2 * Screen.height) Destroy(gameObject);
     }
 
-    void OnMouseDown()
+    private void OnMouseDown()
     {
         var v3 = Input.mousePosition;
         v3.z = 10.0F;
@@ -63,7 +58,8 @@ public class ShopItem : MonoBehaviour
                 Debug.LogError("no such item");
                 return;
         }
-        GameObject instance = Instantiate(obj, v3, Quaternion.identity);
+
+        Instantiate(obj, v3, Quaternion.identity);
 
         Destroy(gameObject);
     }
