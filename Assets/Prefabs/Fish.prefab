@@ -78,6 +78,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   youngFishScream: {fileID: 8300000, guid: 3b0a719ffe3331141879c4b79ded5768, type: 3}
   fishScream: {fileID: 8300000, guid: b715699f904ee4c4dbdcb36323c6e615, type: 3}
+  randomAudioHungry:
+  - {fileID: 8300000, guid: c657ee9b754bfe6478ef69c69e1a93f7, type: 3}
+  - {fileID: 8300000, guid: f7bbac7325585964283713c366704fb8, type: 3}
+  - {fileID: 8300000, guid: 099f673b29f64544f825f127e2481770, type: 3}
+  - {fileID: 8300000, guid: 7a7b62c73f2b11548abb688d805afb28, type: 3}
+  - {fileID: 8300000, guid: 99f00847ab4634d46bae607feb6d812f, type: 3}
   fadeMultiplier: 0.5
   targetPoint: {x: 0, y: 0, z: 0}
   speed: 0.2
