@@ -21,18 +21,21 @@ public class FishController : MonoBehaviour
     public TargetType targetType;
     public FishStats fishStats;
     public FishDirection direction;
+    public LifeStage lifeStage;
+
+    public Vector3 targetPoint;
 
     public float fadeMultiplier = 0.5f;
-    public Vector3 targetPoint;
     public float speed;
     public float hungerLevel;
+    public float fishAge;
+
     private Animator _animator;
     private AudioSource _audioSource;
+
     private float _delay;
-    private float _fishAge;
     private float _fishPollutionMultiplier = 0.4f;
     private Transform _foodItem;
-    private LifeStage _lifeStage;
     private CircleCollider2D _mouthCollider;
     private float _mouthOffset = 0.15f;
     private Rigidbody2D _rigidbody;
@@ -61,9 +64,9 @@ public class FishController : MonoBehaviour
     private void FixedUpdate()
     {
         if (fishState == FishState.Dead) return;
-        if (_lifeStage != LifeStage.Adult && fishState != FishState.Sick)
+        if (lifeStage != LifeStage.Adult && fishState != FishState.Sick)
         {
-            _fishAge += Time.fixedDeltaTime;
+            fishAge += Time.fixedDeltaTime;
             CheckUpdateFishSize();
         }
 
@@ -128,6 +131,13 @@ public class FishController : MonoBehaviour
         }
     }
 
+
+    private void OnMouseDown()
+    {
+        if (fishState != FishState.Dead) return;
+        Destroy(gameObject);
+    }
+
     // Currently the only trigger we have is the mouth collision
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -144,7 +154,7 @@ public class FishController : MonoBehaviour
     private void PlayRandomHungrySound()
     {
         AudioClip selectedSound;
-        switch (_lifeStage)
+        switch (lifeStage)
         {
             case LifeStage.Beby:
                 selectedSound = randomBebyHungry[Random.Range(0, randomBebyHungry.Length)];
@@ -177,18 +187,18 @@ public class FishController : MonoBehaviour
 
     private void CheckUpdateFishSize()
     {
-        switch (_lifeStage)
+        switch (lifeStage)
         {
-            case LifeStage.Beby when _fishAge > fishStats.youngThreshold:
+            case LifeStage.Beby when fishAge > fishStats.youngThreshold:
                 _mouthOffset = 0.25f;
-                _lifeStage = LifeStage.Young;
+                lifeStage = LifeStage.Young;
                 _animator.SetBool(IsYoung, true);
                 fishScream = youngFishScream;
                 _fishPollutionMultiplier = 0.75f;
                 break;
-            case LifeStage.Young when _fishAge > fishStats.adultThreshold:
+            case LifeStage.Young when fishAge > fishStats.adultThreshold:
                 _mouthOffset = 0.5f;
-                _lifeStage = LifeStage.Adult;
+                lifeStage = LifeStage.Adult;
                 _animator.SetBool(IsAdult, true);
                 _fishPollutionMultiplier = 1.0f;
                 break;
@@ -218,7 +228,8 @@ public class FishController : MonoBehaviour
         _spriteRenderer.flipY = true;
         _animator.SetBool(IsDead, true);
         PlayScreamSound();
-        Destroy(gameObject, 10);
+        _rigidbody.gravityScale = 0.01f;
+        StartCoroutine(PoisonWithBody());
     }
 
     private void ChooseNewIdleTarget()
@@ -285,6 +296,13 @@ public class FishController : MonoBehaviour
         {
             _rigidbody.AddForce(speed * (targetPoint - transform.position));
         }
+    }
+
+    private IEnumerator PoisonWithBody()
+    {
+        yield return new WaitForSeconds(Random.Range(8, 13));
+        GameManager.GetInstance().Pollute(15);
+        Destroy(gameObject);
     }
 
     private IEnumerator PolluteAquarium(float level, float delay)
