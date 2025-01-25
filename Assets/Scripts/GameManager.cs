@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverPanel;
 
     public float pollutionLevel;
-    public float pollutionLevelHigh;
     public float pollutionLevelGameOver;
 
     private Vignette _vignette;

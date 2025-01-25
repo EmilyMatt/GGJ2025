@@ -6,7 +6,7 @@ public class Plant : MonoBehaviour
 
     private void Start()
     {
-        Destroy(gameObject, 20f);
+        Destroy(gameObject, Random.Range(15, 25));
     }
 
     private void FixedUpdate()

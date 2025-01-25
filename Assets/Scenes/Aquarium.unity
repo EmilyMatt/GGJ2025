@@ -353,6 +353,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5314166280577567861, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5582,6 +5586,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5314166280577567861, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5314166280577567861, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: direction
       value: 1
@@ -6514,10 +6526,9 @@ MonoBehaviour:
   postProcessVolume: {fileID: 1449601272}
   pollutionText: {fileID: 2053187891}
   fishObjects: []
-  gameOverPanel: {fileID: 851288248}
   pollutionLevel: 0
-  pollutionLevelHigh: 60
   pollutionLevelGameOver: 100
+  gameOverPanel: {fileID: 851288248}
 --- !u!1 &1422555768
 GameObject:
   m_ObjectHideFlags: 0
