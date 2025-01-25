@@ -6,12 +6,14 @@ public class ShopItem : MonoBehaviour
     {
         Goldfish,
         Plant,
-        Poisionplant
+        Poisionplant,
+        PurpleFish
     }
 
     public GameObject fish;
     public GameObject plant;
     public GameObject poisionPlant;
+    public GameObject purpleFish;
     public ItemType itemType;
     public float wobbliness = 0.01F;
     private Rigidbody2D _rigidbody;
@@ -47,6 +49,9 @@ public class ShopItem : MonoBehaviour
                 break;
             case ItemType.Poisionplant:
                 obj = poisionPlant;
+                break;
+            case ItemType.PurpleFish:
+                obj = purpleFish;
                 break;
             default:
                 Debug.LogError("no such item");

@@ -21,6 +21,7 @@ public class Shop : MonoBehaviour
         var item = instance.GetComponent<ShopItem>();
         item.itemType = Random.Range(0, 10) switch
         {
+            < 1 => ShopItem.ItemType.PurpleFish,
             < 4 => ShopItem.ItemType.Goldfish,
             < 7 => ShopItem.ItemType.Poisionplant,
             _ => ShopItem.ItemType.Plant
