@@ -1,5 +1,5 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -66,11 +66,9 @@ public class GameManager : MonoBehaviour
     }
 
 
-    void UpdatePollutionUI()
+    private void UpdatePollutionUI()
     {
         // Update the text to display the current pollution rate
-        pollutionText.text = "Pollution Rate: " + pollutionLevel.ToString("F2"); // Display with 2 decimal places
+        pollutionText.text = $"Pollution Level: {pollutionLevel:F2}%"; // Display with 2 decimal places
     }
-
 }
-
