@@ -24,6 +24,7 @@ public class FishController : MonoBehaviour
     public LifeStage lifeStage;
 
     public Vector3 targetPoint;
+    public bool hasSpecialAnimations = false;
 
     public float fadeMultiplier = 0.5f;
     public float speed;
@@ -80,7 +81,7 @@ public class FishController : MonoBehaviour
         else if (hungerLevel < fishStats.starveThreshold)
         {
             fishState = FishState.Sick;
-            _animator.SetBool(IsSick, true);
+            if(hasSpecialAnimations){_animator.SetBool(IsSick, true);}
         }
         else
         {
@@ -95,7 +96,10 @@ public class FishController : MonoBehaviour
                 fishState = FishState.Chillin;
             }
 
-            _animator.SetBool(IsSick, false);
+            if(hasSpecialAnimations){
+            if(hasSpecialAnimations){_animator.SetBool(IsSick, false);}
+            }
+            
         }
 
         switch (targetType)
@@ -192,14 +196,14 @@ public class FishController : MonoBehaviour
             case LifeStage.Beby when fishAge > fishStats.youngThreshold:
                 _mouthOffset = 0.25f;
                 lifeStage = LifeStage.Young;
-                _animator.SetBool(IsYoung, true);
+                if(hasSpecialAnimations){_animator.SetBool(IsYoung, true);}
                 fishScream = youngFishScream;
                 _fishPollutionMultiplier = 0.75f;
                 break;
             case LifeStage.Young when fishAge > fishStats.adultThreshold:
                 _mouthOffset = 0.5f;
                 lifeStage = LifeStage.Adult;
-                _animator.SetBool(IsAdult, true);
+                if(hasSpecialAnimations){_animator.SetBool(IsAdult, true);}
                 _fishPollutionMultiplier = 1.0f;
                 break;
             default:
@@ -226,7 +230,7 @@ public class FishController : MonoBehaviour
     {
         fishState = FishState.Dead;
         _spriteRenderer.flipY = true;
-        _animator.SetBool(IsDead, true);
+        if(hasSpecialAnimations){_animator.SetBool(IsDead, true);}
         PlayScreamSound();
         _rigidbody.gravityScale = 0.01f;
         StartCoroutine(PoisonWithBody());
