@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddfd99e0b9a30473bbaed4111e471f1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pollutionDecrease: 10
+  pollutionDecrease: 0.6
 --- !u!50 &2165753253571735290
 Rigidbody2D:
   serializedVersion: 4
