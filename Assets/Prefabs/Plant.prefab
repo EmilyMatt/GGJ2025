@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddfd99e0b9a30473bbaed4111e471f1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pollutionDecrease: 10
 --- !u!50 &2165753253571735290
 Rigidbody2D:
   serializedVersion: 4
@@ -117,7 +118,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &9024260806360999209
 GameObject:
