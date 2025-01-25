@@ -11,31 +11,32 @@ public class FishController : MonoBehaviour
     private static readonly int IsSick = Animator.StringToHash("IsSick");
     private static readonly int IsDead = Animator.StringToHash("IsDead");
 
-
     public AudioClip youngFishScream;
     public AudioClip fishScream;
-    public AudioClip[] randomAudioHungry;
+    public AudioClip[] randomBebyHungry;
+    public AudioClip[] randomYoungHungry;
+    public AudioClip[] randomAdultHungry;
+
+    public FishState fishState;
+    public TargetType targetType;
+    public FishStats fishStats;
+    public FishDirection direction;
 
     public float fadeMultiplier = 0.5f;
     public Vector3 targetPoint;
     public float speed;
     public float hungerLevel;
-    public FishState fishState;
-    public TargetType targetType;
-    public FishStats fishStats;
     private Animator _animator;
     private AudioSource _audioSource;
-
     private float _delay;
-    private FishDirection _direction;
     private float _fishAge;
+    private float _fishPollutionMultiplier = 0.4f;
     private Transform _foodItem;
     private LifeStage _lifeStage;
     private CircleCollider2D _mouthCollider;
     private float _mouthOffset = 0.15f;
     private Rigidbody2D _rigidbody;
     private SpriteRenderer _spriteRenderer;
-
 
     // Start is called before the first frame update
     private void Start()
@@ -52,6 +53,8 @@ public class FishController : MonoBehaviour
 
         fishStats.aquariumRanges = PlayerController.GetInstance().aquariumRanges;
         _audioSource = GetComponent<AudioSource>();
+
+        hungerLevel = Random.Range(fishStats.hungerThreshold, fishStats.maxHungerLevel);
     }
 
     // Update is called once per frame
@@ -74,7 +77,6 @@ public class FishController : MonoBehaviour
         else if (hungerLevel < fishStats.starveThreshold)
         {
             fishState = FishState.Sick;
-            //sound randowm from the hungry array
             _animator.SetBool(IsSick, true);
         }
         else
@@ -141,15 +143,30 @@ public class FishController : MonoBehaviour
 
     private void PlayRandomHungrySound()
     {
-        var randomIndex = Random.Range(0, randomAudioHungry.Length);
-        _audioSource.PlayOneShot(randomAudioHungry[randomIndex]);
+        AudioClip selectedSound;
+        switch (_lifeStage)
+        {
+            case LifeStage.Beby:
+                selectedSound = randomBebyHungry[Random.Range(0, randomBebyHungry.Length)];
+                break;
+            case LifeStage.Young:
+                selectedSound = randomYoungHungry[Random.Range(0, randomYoungHungry.Length)];
+                break;
+            case LifeStage.Adult:
+                selectedSound = randomAdultHungry[Random.Range(0, randomAdultHungry.Length)];
+                break;
+            default: return;
+        }
+
+        _audioSource.PlayOneShot(selectedSound);
     }
 
     private void EatFood(GameObject foodGameObject)
     {
         var foodStats = foodGameObject.GetComponent<DroppedFoodController>();
-        hungerLevel = Mathf.Min(fishStats.maxHungerLevel, hungerLevel + foodStats.foodAmount);
-        StartCoroutine(PolluteAquarium(foodStats.foodAmount * 0.15f, 2f));
+        var foodAmount = Random.Range(foodStats.foodAmount * 0.9f, foodStats.foodAmount * 1.1f);
+        hungerLevel = Mathf.Min(fishStats.maxHungerLevel, hungerLevel + foodAmount);
+        StartCoroutine(PolluteAquarium(foodAmount * 0.15f * _fishPollutionMultiplier, 2f));
         targetType = TargetType.None;
         _delay = 2;
         _rigidbody.AddForce(Vector2.down * 3);
@@ -167,17 +184,19 @@ public class FishController : MonoBehaviour
                 _lifeStage = LifeStage.Young;
                 _animator.SetBool(IsYoung, true);
                 fishScream = youngFishScream;
+                _fishPollutionMultiplier = 0.75f;
                 break;
             case LifeStage.Young when _fishAge > fishStats.adultThreshold:
                 _mouthOffset = 0.5f;
                 _lifeStage = LifeStage.Adult;
                 _animator.SetBool(IsAdult, true);
+                _fishPollutionMultiplier = 1.0f;
                 break;
             default:
                 return;
         }
 
-        _mouthCollider.offset = new Vector2(_direction == FishDirection.Left ? -_mouthOffset : _mouthOffset, 0);
+        _mouthCollider.offset = new Vector2(direction == FishDirection.Left ? -_mouthOffset : _mouthOffset, 0);
     }
 
     private void SearchForFoodItem()
@@ -215,13 +234,13 @@ public class FishController : MonoBehaviour
         var directionToFood = (position - transform.position).normalized;
 
         // Change direction if needed
-        var shouldChangeDirection = (_direction == FishDirection.Left && directionToFood.x > 0) ||
-                                    (_direction == FishDirection.Right && directionToFood.x < 0);
+        var shouldChangeDirection = (direction == FishDirection.Left && directionToFood.x > 0) ||
+                                    (direction == FishDirection.Right && directionToFood.x < 0);
         if (!shouldChangeDirection) return;
 
-        _direction = _direction == FishDirection.Left ? FishDirection.Right : FishDirection.Left;
+        direction = direction == FishDirection.Left ? FishDirection.Right : FishDirection.Left;
 
-        _spriteRenderer.flipX = _direction == FishDirection.Right; // Default sprite is left
+        _spriteRenderer.flipX = direction == FishDirection.Right; // Default sprite is left
         // Ensure mouth is on the correct side
         _mouthCollider.offset = new Vector2(-_mouthCollider.offset.x, _mouthCollider.offset.y);
     }
@@ -239,7 +258,7 @@ public class FishController : MonoBehaviour
         MaybeChangeDirection(foodPosition);
 
         // Add offset so food goes to mouth
-        if (_direction == FishDirection.Left)
+        if (direction == FishDirection.Left)
             foodPosition.x += _mouthOffset;
         else
             foodPosition.x -= _mouthOffset;
