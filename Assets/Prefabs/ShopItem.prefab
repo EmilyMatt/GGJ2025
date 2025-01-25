@@ -134,6 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fish: {fileID: 2169064345183891595, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
   plant: {fileID: 5962127780016614930, guid: 916223ebbe4fb4d6783f0be3925e594c, type: 3}
+  poisionPlant: {fileID: 5962127780016614930, guid: 40a47dc46b909054f9e5264a45b311d8, type: 3}
   itemType: 0
   wobbliness: 0.01
 --- !u!50 &1807396210558880780

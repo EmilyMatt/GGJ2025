@@ -5,11 +5,13 @@ public class ShopItem : MonoBehaviour
     public enum ItemType
     {
         Goldfish,
-        Plant
+        Plant,
+        Poisionplant
     }
 
     public GameObject fish;
     public GameObject plant;
+    public GameObject poisionPlant;
     public ItemType itemType;
     public float wobbliness = 0.01F;
     private Rigidbody2D _rigidbody;
@@ -18,18 +20,7 @@ public class ShopItem : MonoBehaviour
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        switch (itemType)
-        {
-            case ItemType.Goldfish:
-                GetComponentInChildren<SpriteRenderer>().color = new Color(1.0f, 1.0f, 0.0f, 0.1f);
-                break;
-            case ItemType.Plant:
-                GetComponentInChildren<SpriteRenderer>().color = new Color(0.5f, 1.0f, 0.5f, 0.1f);
-                break;
-            default:
-                Debug.LogError("no such item");
-                return;
-        }
+
     }
 
     // Update is called once per frame
@@ -53,6 +44,9 @@ public class ShopItem : MonoBehaviour
                 break;
             case ItemType.Plant:
                 obj = plant;
+                break;
+            case ItemType.Poisionplant:
+                obj = poisionPlant;
                 break;
             default:
                 Debug.LogError("no such item");
