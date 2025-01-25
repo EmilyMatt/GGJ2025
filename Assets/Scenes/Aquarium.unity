@@ -6678,6 +6678,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pollutionPanel: {fileID: 38339176}
+  pollutionText: {fileID: 2053187891}
   fishObjects: []
   pollutionLevel: 0
   pollutionLevelHigh: 60

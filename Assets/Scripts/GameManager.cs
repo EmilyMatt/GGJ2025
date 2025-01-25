@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using TMPro;
 
 public class GameManager: MonoBehaviour
 {
     public GameObject pollutionPanel;
+    public TextMeshProUGUI pollutionText;
     public GameObject[] fishObjects;
     public float pollutionLevel;
     public float pollutionLevelHigh;
@@ -69,6 +71,17 @@ public class GameManager: MonoBehaviour
 
         // Reload the current scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    void Start()
+    {
+        UpdatePollutionUI();
+    }
+
+    void UpdatePollutionUI()
+    {
+        // Update the text to display the current pollution rate
+        pollutionText.text = "Pollution Rate: " + pollutionLevel.ToString("F2"); // Display with 2 decimal places
     }
 
 }
