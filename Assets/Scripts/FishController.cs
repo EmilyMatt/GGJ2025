@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Linq;
 using FishSettings;
@@ -15,9 +14,7 @@ public class FishController : MonoBehaviour
 
     public AudioClip babyFish_scream;
     public AudioClip youngFish_scream;
-    private AudioClip fishScream;
-    private AudioSource audioSource;
-    
+
 
     public float fadeMultiplier = 0.5f;
     public Vector3 targetPoint;
@@ -37,6 +34,8 @@ public class FishController : MonoBehaviour
     private float _mouthOffset = 0.15f;
     private Rigidbody2D _rigidbody;
     private SpriteRenderer _spriteRenderer;
+    private AudioSource audioSource;
+    private AudioClip fishScream;
 
 
     // Start is called before the first frame update
@@ -57,17 +56,17 @@ public class FishController : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void Update()
+    private void FixedUpdate()
     {
         if (fishState == FishState.Dead) return;
         if (_lifeStage != LifeStage.Adult && fishState != FishState.Sick)
         {
-            _fishAge += Time.deltaTime;
+            _fishAge += Time.fixedDeltaTime;
             CheckUpdateFishSize();
         }
 
         // use deltaTime so we can measure this in seconds
-        hungerLevel -= Time.deltaTime;
+        hungerLevel -= Time.fixedDeltaTime;
 
         if (hungerLevel <= 0)
         {
@@ -110,22 +109,11 @@ public class FishController : MonoBehaviour
             }
             case TargetType.None:
             {
-                _delay -= Time.deltaTime;
+                _delay -= Time.fixedDeltaTime;
                 if (_delay <= 0) ChooseNewIdleTarget();
                 break;
             }
         }
-    }
-
-    void PlayScreamSound()
-    {
-        // Play the sound
-        if(fishScream != null) {
-            audioSource.PlayOneShot(fishScream);
-        }
-
-        else audioSource.PlayOneShot(babyFish_scream);
-        
     }
 
     // Currently the only trigger we have is the mouth collision
@@ -133,6 +121,15 @@ public class FishController : MonoBehaviour
     {
         if (fishState is FishState.Hungry or FishState.Sick && other.CompareTag("Food") &&
             other.transform.position.y > -3) EatFood(other.gameObject);
+    }
+
+    private void PlayScreamSound()
+    {
+        // Play the sound
+        if (fishScream != null)
+            audioSource.PlayOneShot(fishScream);
+
+        else audioSource.PlayOneShot(babyFish_scream);
     }
 
     private void EatFood(GameObject foodGameObject)
@@ -237,7 +234,7 @@ public class FishController : MonoBehaviour
 
         // Fish moves faster towards food
         _rigidbody.MovePosition(Vector3.MoveTowards(transform.position, foodPosition,
-            speed * Time.deltaTime * 10));
+            speed * Time.fixedDeltaTime * 10));
     }
 
     private void HandleIdleMotion()
@@ -249,7 +246,7 @@ public class FishController : MonoBehaviour
             // Add force towards target for more realistic slowdown
             _rigidbody.AddForce((targetPoint - transform.position) * (speed * fadeMultiplier * _delay));
             if (_delay > 0)
-                _delay -= Time.deltaTime;
+                _delay -= Time.fixedDeltaTime;
             else
                 ChooseNewIdleTarget();
         }

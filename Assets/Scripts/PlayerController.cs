@@ -12,11 +12,9 @@ public class PlayerController : MonoBehaviour
     public float pollutionLevelHigh;
     public AudioClip foodDropSound;
     public GameObject pollutionPanel;
+    private AudioSource _audioSource;
     private Coroutine _feedTimer;
     private bool _readyToFeed = true;
-    private AudioSource audioSource;
-
-
 
     private void Awake()
     {
@@ -26,13 +24,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         if (!canvas) canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
-        audioSource = GetComponent<AudioSource>();
-    }
-
-    void PlayClickSound()
-    {
-        // Play the sound
-        audioSource.PlayOneShot(foodDropSound);
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void OnMouseDown()
@@ -50,6 +42,12 @@ public class PlayerController : MonoBehaviour
         {
             FishScareBubble();
         }
+    }
+
+    private void PlayClickSound()
+    {
+        // Play the sound
+        _audioSource.PlayOneShot(foodDropSound);
     }
 
     public void Pollute(float amount)
@@ -84,10 +82,10 @@ public class PlayerController : MonoBehaviour
         _feedTimer = null;
     }
 
-    void TogglePollutionPanel(){
-        if(pollutionLevel >= pollutionLevelHigh ){
+    private void TogglePollutionPanel()
+    {
+        if (pollutionLevel >= pollutionLevelHigh)
             pollutionPanel.SetActive(true);
-        }
 
         else pollutionPanel.SetActive(false);
     }

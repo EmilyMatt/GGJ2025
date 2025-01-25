@@ -11,12 +11,12 @@ public class DroppedFoodController : MonoBehaviour
         _renderer = GetComponent<SpriteRenderer>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!(transform.position.y < -3)) return;
 
 
-        _timeOnGround += Time.deltaTime;
+        _timeOnGround += Time.fixedDeltaTime;
         // Slowly reduce opacity
         if (_timeOnGround > 2)
         {
