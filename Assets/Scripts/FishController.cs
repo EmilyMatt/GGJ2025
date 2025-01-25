@@ -190,6 +190,7 @@ public class FishController : MonoBehaviour
         _spriteRenderer.flipY = true;
         _animator.SetBool(IsDead, true);
         PlayScreamSound();
+        Destroy(gameObject, 5);
     }
 
     private void ChooseNewIdleTarget()
