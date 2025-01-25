@@ -301,7 +301,7 @@ public class FishController : MonoBehaviour
 
     private IEnumerator PoisonWithBody()
     {
-        yield return new WaitForSeconds(Random.Range(8, 13));
+        yield return new WaitForSeconds(Random.Range(10, 20));
         GameManager.GetInstance().Pollute(15);
         Destroy(gameObject);
     }
