@@ -6512,13 +6512,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   postProcessVolume: {fileID: 1449601272}
-  pollutionPanel: {fileID: 0}
   pollutionText: {fileID: 2053187891}
   fishObjects: []
+  gameOverPanel: {fileID: 851288248}
   pollutionLevel: 0
   pollutionLevelHigh: 60
   pollutionLevelGameOver: 100
-  gameOverPanel: {fileID: 851288248}
 --- !u!1 &1422555768
 GameObject:
   m_ObjectHideFlags: 0
@@ -6774,7 +6773,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 350, y: 350}
+  m_AnchoredPosition: {x: 355, y: 314}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2053187891
@@ -6799,15 +6798,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Pollution Rate: '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1853f0d1e250bca4ab8248acc39022a9, type: 2}
+  m_sharedMaterial: {fileID: -4605526916663806918, guid: 1853f0d1e250bca4ab8248acc39022a9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278520576
-  m_fontColor: {r: 0.00023495541, g: 0.04150939, b: 0.021179937, a: 1}
+    rgba: 4279908608
+  m_fontColor: {r: 0, g: 0.22264141, b: 0.10120065, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
