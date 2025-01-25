@@ -8,10 +8,7 @@ public class PlayerController : MonoBehaviour
     public Canvas canvas;
     public GameObject food;
     public float feedingDelay;
-    public float pollutionLevel;
-    public float pollutionLevelHigh;
     public AudioClip foodDropSound;
-    public GameObject pollutionPanel;
     private AudioSource _audioSource;
     private Coroutine _feedTimer;
     private bool _readyToFeed = true;
@@ -50,13 +47,6 @@ public class PlayerController : MonoBehaviour
         _audioSource.PlayOneShot(foodDropSound);
     }
 
-    public void Pollute(float amount)
-    {
-        pollutionLevel = Mathf.Max(0, pollutionLevel + amount);
-        pollutionLevel += amount;
-
-        MaybeTogglePollutionPanel();
-    }
 
     public static PlayerController GetInstance()
     {
@@ -82,10 +72,5 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(feedingDelay);
         _readyToFeed = true;
         _feedTimer = null;
-    }
-
-    private void MaybeTogglePollutionPanel()
-    {
-        pollutionPanel.SetActive(pollutionLevel >= pollutionLevelHigh);
     }
 }
