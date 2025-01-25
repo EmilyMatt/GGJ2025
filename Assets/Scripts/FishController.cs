@@ -131,7 +131,7 @@ public class FishController : MonoBehaviour
     {
         var foodStats = foodGameObject.GetComponent<DroppedFoodController>();
         hungerLevel = Mathf.Min(fishStats.maxHungerLevel, hungerLevel + foodStats.foodAmount);
-        StartCoroutine(PolluteAquarium(foodStats.foodAmount * 0.25f, 2f));
+        StartCoroutine(PolluteAquarium(foodStats.foodAmount * 0.15f, 2f));
         targetType = TargetType.None;
         _delay = 2;
         _rigidbody.AddForce(Vector2.down * 3);

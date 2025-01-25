@@ -81,15 +81,15 @@ MonoBehaviour:
   fadeMultiplier: 0.5
   targetPoint: {x: 0, y: 0, z: 0}
   speed: 0.2
-  hungerLevel: 45
+  hungerLevel: 20
   fishState: 0
   targetType: 0
   fishStats:
-    youngThreshold: 25
-    adultThreshold: 60
-    hungerThreshold: 20
-    starveThreshold: 10
-    maxHungerLevel: 30
+    youngThreshold: 40
+    adultThreshold: 70
+    hungerThreshold: 15
+    starveThreshold: 7.5
+    maxHungerLevel: 25
     aquariumRanges: {x: -6, y: 6, z: -4, w: 4}
 --- !u!61 &1131522922866480014
 BoxCollider2D:
