@@ -15,7 +15,7 @@ public class FishController : MonoBehaviour
     public AudioClip youngFishScream;
     public AudioClip fishScream;
     public AudioClip[] randomAudioHungry;
-    public AudioClip hungrySound;
+    private AudioClip hungrySound;
 
     public float fadeMultiplier = 0.5f;
     public Vector3 targetPoint;
@@ -133,7 +133,7 @@ public class FishController : MonoBehaviour
     public void PlayRandomHungrySound(){
 
         int randomIndex = Random.Range(0, randomAudioHungry.Length);
-        AudioClip hungrySound = randomAudioHungry[randomIndex];
+        hungrySound = randomAudioHungry[randomIndex];
         _audioSource.PlayOneShot(hungrySound);
 
     }
