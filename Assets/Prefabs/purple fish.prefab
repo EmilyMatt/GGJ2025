@@ -273,7 +273,7 @@ MonoBehaviour:
   targetPoint: {x: 0, y: 0, z: 0}
   hasSpecialAnimations: 0
   fadeMultiplier: 0.5
-  speed: 0
+  speed: 0.3
   hungerLevel: 0
   fishAge: 0
 --- !u!1 &5510717621972972481
