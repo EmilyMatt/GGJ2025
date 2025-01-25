@@ -1,63 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class GameManager: MonoBehaviour
+public class GameManager : MonoBehaviour
 {
+    private static GameManager _instance;
     public GameObject pollutionPanel;
     public GameObject[] fishObjects;
     public float pollutionLevel;
     public float pollutionLevelHigh;
     public float pollutionLevelGameOver;
     public GameObject gameOverPanel;
-    private static GameManager _instance;
-    public static GameManager GetInstance()
-    {
-        return _instance;
-    }
-    
+
     private void Awake()
     {
         _instance = this;
     }
-    
+
+    private void FixedUpdate()
+    {
+        CheckForFish();
+    }
+
+    public static GameManager GetInstance()
+    {
+        return _instance;
+    }
+
     private void MaybeTogglePollutionPanel()
     {
         pollutionPanel.SetActive(pollutionLevel >= pollutionLevelHigh);
     }
-    
+
     public void Pollute(float amount)
     {
         pollutionLevel = Mathf.Max(0, pollutionLevel + amount);
         pollutionLevel += amount;
 
         MaybeTogglePollutionPanel();
-        if (pollutionLevel > pollutionLevelGameOver)
-        {
-            TriggerGameOver();
-        }
+        if (pollutionLevel > pollutionLevelGameOver) TriggerGameOver();
     }
 
-    void FixedUpdate()
+    private void CheckForFish()
     {
-        CheckForFish();
-    }
-
-    void CheckForFish(){
-
         fishObjects = GameObject.FindGameObjectsWithTag("Fish");
 
-        if (fishObjects.Length == 0){
-            TriggerGameOver();
-        }
-
-
+        if (fishObjects.Length == 0) TriggerGameOver();
     }
 
-    void TriggerGameOver(){
-
+    private void TriggerGameOver()
+    {
         gameOverPanel?.SetActive(true);
+        GameObject.Find("Tank").GetComponent<BoxCollider2D>().enabled = false;
         Time.timeScale = 0; // Pauses the game
     }
 
@@ -70,5 +63,4 @@ public class GameManager: MonoBehaviour
         // Reload the current scene
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-
 }
