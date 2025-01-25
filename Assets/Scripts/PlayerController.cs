@@ -52,8 +52,10 @@ public class PlayerController : MonoBehaviour
 
     public void Pollute(float amount)
     {
+        pollutionLevel = Mathf.Max(0, pollutionLevel + amount);
         pollutionLevel += amount;
-        TogglePollutionPanel();
+
+        MaybeTogglePollutionPanel();
     }
 
     public static PlayerController GetInstance()
@@ -82,11 +84,8 @@ public class PlayerController : MonoBehaviour
         _feedTimer = null;
     }
 
-    private void TogglePollutionPanel()
+    private void MaybeTogglePollutionPanel()
     {
-        if (pollutionLevel >= pollutionLevelHigh)
-            pollutionPanel.SetActive(true);
-
-        else pollutionPanel.SetActive(false);
+        pollutionPanel.SetActive(pollutionLevel >= pollutionLevelHigh);
     }
 }

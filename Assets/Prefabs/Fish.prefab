@@ -76,6 +76,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b2d6ad4abd9c979a9f9e895681ed16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  youngFishScream: {fileID: 8300000, guid: 3b0a719ffe3331141879c4b79ded5768, type: 3}
+  fishScream: {fileID: 8300000, guid: b715699f904ee4c4dbdcb36323c6e615, type: 3}
   fadeMultiplier: 0.5
   targetPoint: {x: 0, y: 0, z: 0}
   speed: 0.2
@@ -83,11 +85,11 @@ MonoBehaviour:
   fishState: 0
   targetType: 0
   fishStats:
-    youngThreshold: 35
+    youngThreshold: 25
     adultThreshold: 60
-    hungerThreshold: 40
-    starveThreshold: 20
-    maxHungerLevel: 60
+    hungerThreshold: 20
+    starveThreshold: 10
+    maxHungerLevel: 30
     aquariumRanges: {x: -6, y: 6, z: -4, w: 4}
 --- !u!61 &1131522922866480014
 BoxCollider2D:
@@ -121,7 +123,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0020723343, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -132,7 +134,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6932082, y: 0.5}
+  m_Size: {x: 0.7, y: 0.5}
   m_EdgeRadius: 0
 --- !u!58 &5314166280577567861
 CircleCollider2D:
@@ -176,7 +178,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2169064345183891595}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}

@@ -12,9 +12,8 @@ public class FishController : MonoBehaviour
     private static readonly int IsDead = Animator.StringToHash("IsDead");
 
 
-    public AudioClip babyFish_scream;
-    public AudioClip youngFish_scream;
-
+    public AudioClip youngFishScream;
+    public AudioClip fishScream;
 
     public float fadeMultiplier = 0.5f;
     public Vector3 targetPoint;
@@ -24,6 +23,7 @@ public class FishController : MonoBehaviour
     public TargetType targetType;
     public FishStats fishStats;
     private Animator _animator;
+    private AudioSource _audioSource;
 
     private float _delay;
     private FishDirection _direction;
@@ -34,8 +34,6 @@ public class FishController : MonoBehaviour
     private float _mouthOffset = 0.15f;
     private Rigidbody2D _rigidbody;
     private SpriteRenderer _spriteRenderer;
-    private AudioSource audioSource;
-    private AudioClip fishScream;
 
 
     // Start is called before the first frame update
@@ -52,7 +50,7 @@ public class FishController : MonoBehaviour
         _delay = 1; // Give a second before moving away
 
         fishStats.aquariumRanges = PlayerController.GetInstance().aquariumRanges;
-        audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -126,17 +124,14 @@ public class FishController : MonoBehaviour
     private void PlayScreamSound()
     {
         // Play the sound
-        if (fishScream != null)
-            audioSource.PlayOneShot(fishScream);
-
-        else audioSource.PlayOneShot(babyFish_scream);
+        _audioSource.PlayOneShot(fishScream);
     }
 
     private void EatFood(GameObject foodGameObject)
     {
         var foodStats = foodGameObject.GetComponent<DroppedFoodController>();
         hungerLevel = Mathf.Min(fishStats.maxHungerLevel, hungerLevel + foodStats.foodAmount);
-        StartCoroutine(PolluteAquarium(foodStats.foodAmount, 2f));
+        StartCoroutine(PolluteAquarium(foodStats.foodAmount * 0.25f, 2f));
         targetType = TargetType.None;
         _delay = 2;
         _rigidbody.AddForce(Vector2.down * 3);
@@ -153,13 +148,12 @@ public class FishController : MonoBehaviour
                 _mouthOffset = 0.25f;
                 _lifeStage = LifeStage.Young;
                 _animator.SetBool(IsYoung, true);
-                fishScream = babyFish_scream;
+                fishScream = youngFishScream;
                 break;
             case LifeStage.Young when _fishAge > fishStats.adultThreshold:
                 _mouthOffset = 0.5f;
                 _lifeStage = LifeStage.Adult;
                 _animator.SetBool(IsAdult, true);
-                fishScream = youngFish_scream;
                 break;
             default:
                 return;
