@@ -14,6 +14,8 @@ public class FishController : MonoBehaviour
 
     public AudioClip youngFishScream;
     public AudioClip fishScream;
+    public AudioClip[] randomAudioHungry;
+    public AudioClip hungrySound;
 
     public float fadeMultiplier = 0.5f;
     public Vector3 targetPoint;
@@ -73,6 +75,7 @@ public class FishController : MonoBehaviour
         else if (hungerLevel < fishStats.starveThreshold)
         {
             fishState = FishState.Sick;
+            //sound randowm from the hungry array
             _animator.SetBool(IsSick, true);
         }
         else
@@ -125,6 +128,14 @@ public class FishController : MonoBehaviour
     {
         // Play the sound
         _audioSource.PlayOneShot(fishScream);
+    }
+
+    public void PlayRandomHungrySound(){
+
+        int randomIndex = Random.Range(0, randomAudioHungry.Length);
+        AudioClip hungrySound = randomAudioHungry[randomIndex];
+        _audioSource.PlayOneShot(hungrySound);
+
     }
 
     private void EatFood(GameObject foodGameObject)
