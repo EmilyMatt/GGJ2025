@@ -56,7 +56,6 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        Debug.Log("Restart button clicked!");
         // Reset time scale (it was paused during Game Over)
         Time.timeScale = 1;
 
