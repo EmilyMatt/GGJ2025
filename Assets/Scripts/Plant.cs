@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class Plant : MonoBehaviour
 {
+    public float pollutionDecrease;
+
     private void FixedUpdate()
     {
-        GameManager.GetInstance().Pollute(-Time.fixedDeltaTime * 0.1f);
+        GameManager.GetInstance().Pollute(-pollutionDecrease * Time.fixedDeltaTime);
     }
 }

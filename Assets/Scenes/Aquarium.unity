@@ -6957,7 +6957,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: hungerLevel
-      value: 20
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: fishStats.adultThreshold
@@ -7038,7 +7038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: hungerLevel
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7870145871456397586, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: fishStats.adultThreshold
