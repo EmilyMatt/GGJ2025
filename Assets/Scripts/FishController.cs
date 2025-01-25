@@ -11,7 +11,6 @@ public class FishController : MonoBehaviour
     private static readonly int IsSick = Animator.StringToHash("IsSick");
     private static readonly int IsDead = Animator.StringToHash("IsDead");
 
-
     public AudioClip youngFishScream;
     public AudioClip fishScream;
     public AudioClip[] randomBebyHungry;
@@ -78,7 +77,6 @@ public class FishController : MonoBehaviour
         else if (hungerLevel < fishStats.starveThreshold)
         {
             fishState = FishState.Sick;
-            //sound randowm from the hungry array
             _animator.SetBool(IsSick, true);
         }
         else
