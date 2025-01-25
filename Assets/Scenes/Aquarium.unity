@@ -5705,7 +5705,9 @@ MonoBehaviour:
   food: {fileID: 7876799049123129163, guid: 8114206a2bc914afba9a1c3580b28b28, type: 3}
   feedingDelay: 1.5
   pollutionLevel: 0
+  pollutionLevelHigh: 50
   foodDropSound: {fileID: 8300000, guid: fbe49f496b0d06c4d9beb9e9df1f2f19, type: 3}
+  pollutionPanel: {fileID: 38339176}
 --- !u!61 &1179109731
 BoxCollider2D:
   m_ObjectHideFlags: 0

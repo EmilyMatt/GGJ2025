@@ -9,7 +9,9 @@ public class PlayerController : MonoBehaviour
     public GameObject food;
     public float feedingDelay;
     public float pollutionLevel;
+    public float pollutionLevelHigh;
     public AudioClip foodDropSound;
+    public GameObject pollutionPanel;
     private Coroutine _feedTimer;
     private bool _readyToFeed = true;
     private AudioSource audioSource;
@@ -53,6 +55,7 @@ public class PlayerController : MonoBehaviour
     public void Pollute(float amount)
     {
         pollutionLevel += amount;
+        TogglePollutionPanel();
     }
 
     public static PlayerController GetInstance()
@@ -79,5 +82,13 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(feedingDelay);
         _readyToFeed = true;
         _feedTimer = null;
+    }
+
+    void TogglePollutionPanel(){
+        if(pollutionLevel >= pollutionLevelHigh ){
+            pollutionPanel.SetActive(true);
+        }
+
+        else pollutionPanel.SetActive(false);
     }
 }
