@@ -33,11 +33,10 @@ public class GameManager : MonoBehaviour
 
     public void Pollute(float amount)
     {
-        pollutionLevel = Mathf.Max(0, pollutionLevel + amount);
-        pollutionLevel += amount;
+        pollutionLevel = Mathf.Clamp(pollutionLevel + amount, 0, 100);
 
         MaybeTogglePollutionPanel();
-        if (pollutionLevel > pollutionLevelGameOver) TriggerGameOver();
+        if (pollutionLevel >= pollutionLevelGameOver) TriggerGameOver();
     }
 
     private void CheckForFish()

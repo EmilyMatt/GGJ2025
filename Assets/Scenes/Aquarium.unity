@@ -6680,7 +6680,7 @@ MonoBehaviour:
   fishObjects: []
   pollutionLevel: 0
   pollutionLevelHigh: 60
-  pollutionLevelGameOver: 120
+  pollutionLevelGameOver: 100
   gameOverPanel: {fileID: 851288248}
 --- !u!1 &1422555768
 GameObject:
@@ -6917,7 +6917,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3138589848635719657, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.83
       objectReference: {fileID: 0}
     - target: {fileID: 3138589848635719657, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6998,11 +6998,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3138589848635719657, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.82
       objectReference: {fileID: 0}
     - target: {fileID: 3138589848635719657, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.77
       objectReference: {fileID: 0}
     - target: {fileID: 3138589848635719657, guid: 979f632a5021c139c857a61bc9e497e3, type: 3}
       propertyPath: m_LocalPosition.z
