@@ -5,17 +5,41 @@ using UnityEngine;
 
 public class GameManager: MonoBehaviour
 {
-
+    public GameObject pollutionPanel;
     public GameObject[] fishObjects;
+    public float pollutionLevel;
+    public float pollutionLevelHigh;
+    public float pollutionLevelGameOver;
     public GameObject gameOverPanel;
-    // Start is called before the first frame update
-    void Start()
+    private static GameManager _instance;
+    public static GameManager GetInstance()
     {
-        
+        return _instance;
+    }
+    
+    private void Awake()
+    {
+        _instance = this;
+    }
+    
+    private void MaybeTogglePollutionPanel()
+    {
+        pollutionPanel.SetActive(pollutionLevel >= pollutionLevelHigh);
+    }
+    
+    public void Pollute(float amount)
+    {
+        pollutionLevel = Mathf.Max(0, pollutionLevel + amount);
+        pollutionLevel += amount;
+
+        MaybeTogglePollutionPanel();
+        if (pollutionLevel > pollutionLevelGameOver)
+        {
+            TriggerGameOver();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         CheckForFish();
     }

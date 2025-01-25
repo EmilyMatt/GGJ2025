@@ -264,6 +264,6 @@ public class FishController : MonoBehaviour
     private IEnumerator PolluteAquarium(float level, float delay)
     {
         yield return new WaitForSeconds(delay);
-        PlayerController.GetInstance().Pollute(level);
+        GameManager.GetInstance().Pollute(level);
     }
 }
