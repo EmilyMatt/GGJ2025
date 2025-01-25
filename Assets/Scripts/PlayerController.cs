@@ -9,8 +9,12 @@ public class PlayerController : MonoBehaviour
     public GameObject food;
     public float feedingDelay;
     public float pollutionLevel;
+    public AudioClip foodDropSound;
     private Coroutine _feedTimer;
     private bool _readyToFeed = true;
+    private AudioSource audioSource;
+
+
 
     private void Awake()
     {
@@ -20,6 +24,13 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         if (!canvas) canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    void PlayClickSound()
+    {
+        // Play the sound
+        audioSource.PlayOneShot(foodDropSound);
     }
 
     private void OnMouseDown()
@@ -28,6 +39,7 @@ public class PlayerController : MonoBehaviour
         if (_readyToFeed && mousePressed)
         {
             DropFood();
+            PlayClickSound();
             if (_feedTimer != null) StopCoroutine(_feedTimer);
             // Store it so it can be cancelled if needed
             _feedTimer = StartCoroutine(StartFeedTimer());

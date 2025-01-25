@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using FishSettings;
@@ -10,6 +11,13 @@ public class FishController : MonoBehaviour
     private static readonly int IsAdult = Animator.StringToHash("IsAdult");
     private static readonly int IsSick = Animator.StringToHash("IsSick");
     private static readonly int IsDead = Animator.StringToHash("IsDead");
+
+
+    public AudioClip babyFish_scream;
+    public AudioClip youngFish_scream;
+    private AudioClip fishScream;
+    private AudioSource audioSource;
+    
 
     public float fadeMultiplier = 0.5f;
     public Vector3 targetPoint;
@@ -45,6 +53,7 @@ public class FishController : MonoBehaviour
         _delay = 1; // Give a second before moving away
 
         fishStats.aquariumRanges = PlayerController.GetInstance().aquariumRanges;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -108,6 +117,16 @@ public class FishController : MonoBehaviour
         }
     }
 
+    void PlayScreamSound()
+    {
+        // Play the sound
+        if(fishScream != null) {
+            audioSource.PlayOneShot(fishScream);
+        }
+
+        else audioSource.PlayOneShot(babyFish_scream);
+        
+    }
 
     // Currently the only trigger we have is the mouth collision
     private void OnTriggerEnter2D(Collider2D other)
@@ -137,11 +156,13 @@ public class FishController : MonoBehaviour
                 _mouthOffset = 0.25f;
                 _lifeStage = LifeStage.Young;
                 _animator.SetBool(IsYoung, true);
+                fishScream = babyFish_scream;
                 break;
             case LifeStage.Young when _fishAge > fishStats.adultThreshold:
                 _mouthOffset = 0.5f;
                 _lifeStage = LifeStage.Adult;
                 _animator.SetBool(IsAdult, true);
+                fishScream = youngFish_scream;
                 break;
             default:
                 return;
@@ -165,10 +186,10 @@ public class FishController : MonoBehaviour
 
     private void KillFish()
     {
-        // TODO: modify sprite to dead sprite
         fishState = FishState.Dead;
         _spriteRenderer.flipY = true;
         _animator.SetBool(IsDead, true);
+        PlayScreamSound();
     }
 
     private void ChooseNewIdleTarget()
