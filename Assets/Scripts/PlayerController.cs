@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
 
     private static bool ShouldDropFoodHere(Vector3 mousePosition)
     {
+        // No need to check over a direction(can use Vector2.zero)
+        // as all elements are in the same position, will simply perform an overlap check at that position
         return !Physics2D.RaycastAll(mousePosition, Vector2.zero).Any(x => x.transform.root.name != "Tank");
     }
 
@@ -69,7 +71,7 @@ public class PlayerController : MonoBehaviour
     {
         _readyToFeed = false;
 
-        mouseWorldPos.z = 10.0F;
+        mouseWorldPos.z = 0.0F;
         Instantiate(food, mouseWorldPos, Quaternion.identity);
     }
 
