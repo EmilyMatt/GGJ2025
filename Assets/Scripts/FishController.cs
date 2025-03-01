@@ -33,6 +33,7 @@ public class FishController : MonoBehaviour
 
     private Animator _animator;
     private AudioSource _audioSource;
+    private BoxCollider2D _bodyCollider;
 
     private float _delay;
     private float _fishPollutionMultiplier = 0.4f;
@@ -46,6 +47,7 @@ public class FishController : MonoBehaviour
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _bodyCollider = GetComponent<BoxCollider2D>();
         _mouthCollider = GetComponent<CircleCollider2D>();
         var spriteTransform = transform.Find("Sprite");
         _spriteRenderer = spriteTransform.GetComponent<SpriteRenderer>();
@@ -188,6 +190,7 @@ public class FishController : MonoBehaviour
 
     private void CheckUpdateFishSize()
     {
+        Vector2 bodyColliderOffset;
         switch (lifeStage)
         {
             case LifeStage.Beby when fishAge > fishStats.youngThreshold:
@@ -196,17 +199,24 @@ public class FishController : MonoBehaviour
                 _animator.SetBool(IsYoung, true);
                 fishScream = youngFishScream;
                 _fishPollutionMultiplier = 0.75f;
+                bodyColliderOffset = new Vector2(-0.1f, 0f);
+                _bodyCollider.size = new Vector2(0.8f, 0.7f);
                 break;
             case LifeStage.Young when fishAge > fishStats.adultThreshold:
                 _mouthOffset = 0.5f;
                 lifeStage = LifeStage.Adult;
                 _animator.SetBool(IsAdult, true);
                 _fishPollutionMultiplier = 1.0f;
+                bodyColliderOffset = Vector2.zero;
+                _bodyCollider.size = new Vector2(1.0f, 0.85f);
                 break;
             default:
                 return;
         }
-
+ 
+        _bodyCollider.offset =
+            new Vector2(direction == FishDirection.Left ? -bodyColliderOffset.x : bodyColliderOffset.x,
+                bodyColliderOffset.y);
         _mouthCollider.offset = new Vector2(direction == FishDirection.Left ? -_mouthOffset : _mouthOffset, 0);
     }
 
@@ -253,7 +263,8 @@ public class FishController : MonoBehaviour
         direction = direction == FishDirection.Left ? FishDirection.Right : FishDirection.Left;
 
         _spriteRenderer.flipX = direction == FishDirection.Right; // Default sprite is left
-        // Ensure mouth is on the correct side
+        // Ensure collider offsets are flipped
+        _bodyCollider.offset = new Vector2(-_bodyCollider.offset.x, _bodyCollider.offset.y);
         _mouthCollider.offset = new Vector2(-_mouthCollider.offset.x, _mouthCollider.offset.y);
     }
 
