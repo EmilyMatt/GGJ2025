@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -26,19 +27,32 @@ public class PlayerController : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (!Camera.main) return;
+
         var mousePressed = Input.GetMouseButtonDown(0);
-        if (_readyToFeed && mousePressed)
+        if (!_readyToFeed || !mousePressed) return;
+
+        var mousePos = Input.mousePosition;
+        var mouseWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
+
+        if (ShouldDropFoodHere(mouseWorldPos))
         {
-            DropFood();
+            DropFood(mouseWorldPos);
             PlayClickSound();
             if (_feedTimer != null) StopCoroutine(_feedTimer);
             // Store it so it can be cancelled if needed
             _feedTimer = StartCoroutine(StartFeedTimer());
         }
-        else if (mousePressed)
-        {
-            FishScareBubble();
-        }
+
+        // TODO: Play boop sound here
+    }
+
+
+    private static bool ShouldDropFoodHere(Vector3 mousePosition)
+    {
+        // No need to check over a direction(can use Vector2.zero)
+        // as all elements are in the same position, will simply perform an overlap check at that position
+        return !Physics2D.RaycastAll(mousePosition, Vector2.zero).Any(x => x.transform.root.name != "Tank");
     }
 
     private void PlayClickSound()
@@ -53,18 +67,12 @@ public class PlayerController : MonoBehaviour
         return _instance;
     }
 
-    private void DropFood()
+    private void DropFood(Vector3 mouseWorldPos)
     {
         _readyToFeed = false;
 
-        var mousePos = Input.mousePosition;
-        mousePos.z = 10.0F;
-        if (Camera.main) mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-        Instantiate(food, mousePos, Quaternion.identity);
-    }
-
-    private void FishScareBubble()
-    {
+        mouseWorldPos.z = 0.0F;
+        Instantiate(food, mouseWorldPos, Quaternion.identity);
     }
 
     private IEnumerator StartFeedTimer()
